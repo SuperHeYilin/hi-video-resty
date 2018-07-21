@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="diffpi-admin" />
+        <module name="hij-video" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="diffpi-admin" target="1.7" />
+      <module name="hij-video" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>

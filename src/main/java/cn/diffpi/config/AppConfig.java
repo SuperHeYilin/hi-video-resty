@@ -7,6 +7,7 @@ import cn.diffpi.core.MyHandler;
 import cn.diffpi.core.PerUrlManager;
 import cn.diffpi.core.intercepter.MySecurityIntercepter;
 import cn.diffpi.i18n.MessageSourceAccessorUtil;
+import cn.dreampie.common.spring.SpringPlugin;
 import cn.dreampie.log.Colorer;
 import cn.dreampie.orm.ActiveRecordPlugin;
 import cn.dreampie.orm.provider.druid.DruidDataSourceProvider;
@@ -43,9 +44,9 @@ public class AppConfig extends Config
         DruidDataSourceProvider ddsp = new DruidDataSourceProvider("default");
         ActiveRecordPlugin activeRecordPlugin = new ActiveRecordPlugin(ddsp);
         activeRecordPlugin.addIncludePackages("cn.diffpi.resource");
-        // pluginLoader.add(new SpringPlugin(SpringConfig.class));
+//         pluginLoader.add(new SpringPlugin(SpringConfig.class));
         pluginLoader.add(activeRecordPlugin);
-        pluginLoader.add(new QuartzPlugin("default", false));
+//        pluginLoader.add(new QuartzPlugin("default", false));
         Colorer.devEnable(false);
     }
 
