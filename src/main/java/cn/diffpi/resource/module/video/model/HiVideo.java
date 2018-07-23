@@ -1,10 +1,9 @@
-package cn.diffpi.resource.module.Video.model;
+package cn.diffpi.resource.module.video.model;
 
 import cn.diffpi.resource.BaseModel;
 import cn.dreampie.orm.annotation.Table;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,12 +15,14 @@ import java.util.List;
 public class HiVideo extends BaseModel<HiVideo> {
 	public static final HiVideo dao = new HiVideo();
 
-	public boolean initVideo(String path) {
-
-		List<String> list = new ArrayList<>();
-
+	/**
+	 * 初始化导入视频信息
+	 * @param fileList
+	 * @return
+	 */
+	public boolean initVideo(List<String> fileList) {
 		// 文件路径名 便利
-		for (String s : list) {
+		for (String s : fileList) {
 			File file = new File(s);
 			// 如果文件存在
 			if (file.exists()) {
@@ -34,11 +35,8 @@ public class HiVideo extends BaseModel<HiVideo> {
 								.set("size_b", file.length())
 								.set("state", 0)
 								.save();
-				// 父级目录
-				String parentPath = file.getParent();
 			}
 		}
-
 		return true;
 	}
 
