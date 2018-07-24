@@ -5,8 +5,10 @@ import cn.diffpi.resource.ApiResource;
 import cn.diffpi.resource.module.video.model.HiVideo;
 import cn.diffpi.resource.module.directory.model.HiDirectory;
 import cn.dreampie.route.annotation.API;
+import cn.dreampie.route.annotation.GET;
 import cn.dreampie.route.annotation.POST;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,6 +36,24 @@ public class HiVideoResource extends ApiResource {
 		HiDirectory.dao.initDirectory(dirList);
 
 		return true;
+	}
+
+	/**
+	 * @return 重复视频数据
+	 */
+	@GET("/repeat")
+	public Map<String, Object> repeat() {
+		Map<String, Object> map = new HashMap<>();
+
+		List<HiVideo> allRepeat = HiVideo.dao.findAllRepeat();
+
+		List<HiVideo> firstRepeat = HiVideo.dao.findFirstRepeat();
+
+		map.put("allRepeat", allRepeat);
+
+		map.put("firstRepeat", firstRepeat);
+
+		return map;
 	}
 
 }

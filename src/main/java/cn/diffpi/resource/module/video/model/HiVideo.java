@@ -4,6 +4,7 @@ import cn.diffpi.resource.BaseModel;
 import cn.dreampie.orm.annotation.Table;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,5 +40,24 @@ public class HiVideo extends BaseModel<HiVideo> {
 		}
 		return true;
 	}
+
+    /**
+     * @return 所有重复视频
+     */
+    public List<HiVideo> findAllRepeat() {
+	    List<HiVideo> first = new ArrayList<>();
+        first = HiVideo.dao.find("SELECT * FROM hi_video a,(SELECT size_b FROM hi_video GROUP BY size_b HAVING count(size_b) > 1 ) b WHERE a.size_b = b.size_b ORDER BY a.size_b");
+	    return first;
+    }
+
+    /**
+     * 第一个重复
+     * @return
+     */
+    public List<HiVideo> findFirstRepeat() {
+        List<HiVideo> first = new ArrayList<>();
+        first = HiVideo.dao.find("SELECT * FROM hi_video a,(SELECT size_b FROM hi_video GROUP BY size_b HAVING count(size_b) > 1 limit 0,1 ) b WHERE a.size_b = b.size_b ORDER BY a.size_b");
+        return first;
+    }
 
 }

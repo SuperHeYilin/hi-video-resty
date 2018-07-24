@@ -13,8 +13,8 @@ import java.util.List;
 public class FileUtil {
 	public static void main(String[] args) {
 
-		deleteFile("F:\\Studio\\Workspace\\workspace_idea\\Shit\\target\\SSMTest-1.0-SNAPSHOT\\images\\1522987520737.jpg");
-
+//		deleteFile("F:\\Studio\\Workspace\\workspace_idea\\Shit\\target\\SSMTest-1.0-SNAPSHOT\\images\\1522987520737.jpg");
+		openFile("D:\\下载\\BaiduNetdiskDownload\\webSocket-8视频\\视频");
 	}
 
 	/**
