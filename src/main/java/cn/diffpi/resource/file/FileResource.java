@@ -4,6 +4,7 @@ import cn.diffpi.kit.StrKit;
 import cn.diffpi.kit.video.FileUtil;
 import cn.diffpi.resource.ApiResource;
 import cn.diffpi.resource.module.video.model.HiVideo;
+import cn.diffpi.resource.platform.config.model.HiConfig;
 import cn.dreampie.route.annotation.API;
 import cn.dreampie.route.annotation.DELETE;
 import cn.dreampie.route.annotation.GET;
@@ -34,6 +35,11 @@ public class FileResource extends ApiResource {
         }
     }
 
+    /**
+     * 移动删除  移动到指定目录
+     * @param ids
+     * @return
+     */
     @DELETE("/delete")
     public boolean deleteVideo(String ids) {
         if (StrKit.notBlank(ids)) {
@@ -41,7 +47,9 @@ public class FileResource extends ApiResource {
                 HiVideo hiVideo = HiVideo.dao.findById(id);
                 String path = hiVideo.get("path");
                 if (StrKit.notBlank(path)) {
-                    FileUtil.deleteFile(path);
+                    // 获取配置的删除目录路径
+                    String deletePath = HiConfig.dao.getDeletePath();
+                    FileUtil.moveFile(path, deletePath);
                     hiVideo.delete();
                 }
             }

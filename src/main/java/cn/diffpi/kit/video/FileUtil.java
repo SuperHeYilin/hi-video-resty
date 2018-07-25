@@ -1,7 +1,6 @@
 package cn.diffpi.kit.video;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +13,9 @@ public class FileUtil {
 	public static void main(String[] args) {
 
 //		deleteFile("F:\\Studio\\Workspace\\workspace_idea\\Shit\\target\\SSMTest-1.0-SNAPSHOT\\images\\1522987520737.jpg");
-		openFile("D:\\下载\\BaiduNetdiskDownload\\webSocket-8视频\\视频");
+//		openFile("D:\\下载\\BaiduNetdiskDownload\\webSocket-8视频\\视频");
+//		newFolder("D:\\test");
+		moveFile("D:\\新建文件夹 (2)\\新建文本文档.txt", "D:\\test");
 	}
 
 	/**
@@ -40,6 +41,47 @@ public class FileUtil {
 		}
 	}
 
+	/**
+	 * 新建文件夹
+	 * @param filePath
+	 */
+	public static void newFolder(String  filePath)  {
+		try  {
+			File  myFilePath  =  new File(filePath);
+			if  (!myFilePath.exists())  {
+				myFilePath.mkdir();
+			}
+		}
+		catch  (Exception  e)  {
+			System.out.println("新建目录操作出错");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 移动文件到指定目录
+	 * @param oldPath 原始目录
+	 * @param newPath	目标目录
+	 */
+	public static void moveFile(String oldPath, String newPath){
+		try {
+			File oldFile = new File(oldPath);
+			String name = oldFile.getName();
+			File newFile = new File(newPath + File.separator + name);
+			File path = new File(newPath);
+			//判断文件夹是否创建，没有创建则创建新文件夹
+			if(!path.exists()){
+				path.mkdirs();
+			}
+			if (oldFile.renameTo(newFile)) {
+				System.out.println("File is moved successful!");
+			} else {
+				System.out.println("File is failed to move!");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 删除文件
 	 *
