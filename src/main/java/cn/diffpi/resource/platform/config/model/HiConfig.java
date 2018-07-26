@@ -1,7 +1,12 @@
 package cn.diffpi.resource.platform.config.model;
 
 import cn.diffpi.resource.BaseModel;
+import cn.dreampie.common.http.exception.HttpException;
+import cn.dreampie.common.http.result.HttpStatus;
 import cn.dreampie.orm.annotation.Table;
+import cn.dreampie.route.annotation.GET;
+
+import java.util.List;
 
 /**
  * @author: superhe
@@ -17,7 +22,10 @@ public class HiConfig extends BaseModel<HiConfig> {
 	 * @return
 	 */
 	public String getDeletePath() {
-		HiConfig hiConfig = HiConfig.dao.findFirstBy("name = deletePath");
+		HiConfig hiConfig = HiConfig.dao.findFirstBy("name = ?", "deletePath");
+		if (hiConfig == null) {
+			return "null";
+		}
 		String path = hiConfig.get("value");
 		return path;
 	}

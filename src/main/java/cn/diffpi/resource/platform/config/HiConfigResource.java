@@ -1,7 +1,13 @@
 package cn.diffpi.resource.platform.config;
 
+import cn.diffpi.resource.ApiResource;
 import cn.diffpi.resource.platform.config.model.HiConfig;
 import cn.dreampie.route.annotation.API;
+import cn.dreampie.route.annotation.GET;
+import cn.dreampie.route.annotation.POST;
+import cn.dreampie.route.annotation.PUT;
+
+import java.util.List;
 
 /**
  * @author: superhe
@@ -9,16 +15,33 @@ import cn.dreampie.route.annotation.API;
  * @date: 23:22 2018/7/25
  */
 @API("/config")
-public class HiConfigResource {
-
+public class HiConfigResource extends ApiResource {
 	/**
-	 * 更新配置
-	 * @param name 配置名称
-	 * @param value 配置内容
+	 * 罗列所有配置
 	 * @return
 	 */
-	public boolean updateConfig(String name, String value) {
-		return HiConfig.dao.updateColsBy("value","name = ?",value, name);
+	@GET
+	public List<HiConfig> getAllConfig() {
+		return HiConfig.dao.findAll();
+	}
+
+	/**
+	 * 添加配置
+	 * @param hiConfig
+	 * @return
+	 */
+	@POST
+	public boolean addConfig(HiConfig hiConfig) {
+		return hiConfig.save();
+	}
+	/**
+	 * 更新配置
+	 * @param hiConfig 配置
+	 * @return
+	 */
+	@PUT
+	public boolean updateConfig(HiConfig hiConfig) {
+		return hiConfig.update();
 	}
 
 }
