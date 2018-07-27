@@ -1,5 +1,8 @@
 package cn.diffpi.kit.video;
 
+import cn.diffpi.kit.StrKit;
+import cn.dreampie.route.core.multipart.FILE;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +18,18 @@ public class FileUtil {
 //		deleteFile("F:\\Studio\\Workspace\\workspace_idea\\Shit\\target\\SSMTest-1.0-SNAPSHOT\\images\\1522987520737.jpg");
 //		openFile("D:\\下载\\BaiduNetdiskDownload\\webSocket-8视频\\视频");
 //		newFolder("D:\\test");
-		moveFile("D:\\新建文件夹 (2)\\新建文本文档.txt", "D:\\test");
+		moveFile("D:\\下载\\test.txt", "F:\\");
+//		System.out.println(findParent("D:\\下载\\test.txt"));
+	}
+
+	/**
+	 * 返回某个文件或者文件夹的父级文件夹
+	 * @param path
+	 * @return
+	 */
+	public static String findParent(String path) {
+		File file = new File(path);
+		return file.getParent();
 	}
 
 	/**
@@ -45,17 +59,19 @@ public class FileUtil {
 	 * 新建文件夹
 	 * @param filePath
 	 */
-	public static void newFolder(String  filePath)  {
+	public static boolean newFolder(String filePath)  {
+		boolean flag = false;
 		try  {
 			File  myFilePath  =  new File(filePath);
 			if  (!myFilePath.exists())  {
-				myFilePath.mkdir();
+				flag = myFilePath.mkdir();
 			}
 		}
 		catch  (Exception  e)  {
 			System.out.println("新建目录操作出错");
 			e.printStackTrace();
 		}
+		return flag;
 	}
 
 	/**

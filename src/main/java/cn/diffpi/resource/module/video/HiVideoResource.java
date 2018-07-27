@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * 视频资源类
  * @author: superhe
  * @description:
  * @date: 22:56 2018/7/21

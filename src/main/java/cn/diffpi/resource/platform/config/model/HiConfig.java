@@ -18,16 +18,18 @@ public class HiConfig extends BaseModel<HiConfig> {
 	public static final HiConfig dao = new HiConfig();
 
 	/**
-	 * 获取删除文件目录
+	 * 配置查找
+	 * @param keyName 根据键找到值
 	 * @return
 	 */
-	public String getDeletePath() {
-		HiConfig hiConfig = HiConfig.dao.findFirstBy("name = ?", "deletePath");
+	public String getConfigValue(String keyName) {
+		HiConfig hiConfig = HiConfig.dao.findFirstBy("name = ?", keyName);
 		if (hiConfig == null) {
 			return "null";
 		}
-		String path = hiConfig.get("value");
-		return path;
+		return hiConfig.get("value");
 	}
+
+
 
 }
