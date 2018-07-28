@@ -79,7 +79,8 @@ public class FileUtil {
 	 * @param oldPath 原始目录
 	 * @param newPath	目标目录
 	 */
-	public static void moveFile(String oldPath, String newPath){
+	public static boolean moveFile(String oldPath, String newPath){
+		boolean temp = false;
 		try {
 			File oldFile = new File(oldPath);
 			String name = oldFile.getName();
@@ -87,16 +88,14 @@ public class FileUtil {
 			File path = new File(newPath);
 			//判断文件夹是否创建，没有创建则创建新文件夹
 			if(!path.exists()){
-				path.mkdirs();
-			}
-			if (oldFile.renameTo(newFile)) {
-				System.out.println("File is moved successful!");
-			} else {
-				System.out.println("File is failed to move!");
+				if (path.mkdirs()) {
+					temp = oldFile.renameTo(newFile);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return temp;
 	}
 	/**
 	 * 删除文件

@@ -1,7 +1,9 @@
 package cn.diffpi.resource.module.video.model;
 
+import cn.diffpi.kit.StrKit;
 import cn.diffpi.resource.BaseModel;
 import cn.dreampie.orm.annotation.Table;
+import cn.dreampie.route.core.Params;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,6 +18,26 @@ import java.util.List;
 public class HiVideo extends BaseModel<HiVideo> {
 	public static final HiVideo dao = new HiVideo();
 
+	/**
+	 * 根据参数 拼装sql
+	 * @param arrayList
+	 * @param p
+	 * @return
+	 * */
+	public String getSql(ArrayList<Object> arrayList, Params p) {
+		StringBuilder sql = new StringBuilder("from hi_video where is_del = 0 ");
+
+		// 处理状态
+		String fileName = p.get("file_name");
+		if(StrKit.notBlank(fileName)) {
+			sql.append("and file_name like '%");
+			sql.append(fileName);
+			sql.append("%' ");
+			arrayList.add(fileName);
+		}
+
+		return sql.toString();
+	}
 	/**
 	 * 初始化导入视频信息
 	 * @param fileList

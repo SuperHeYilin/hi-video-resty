@@ -1,12 +1,15 @@
 package cn.diffpi.resource.file;
 
-import cn.diffpi.kit.DateUtil;
 import cn.diffpi.kit.StrKit;
 import cn.diffpi.kit.video.FileUtil;
 import cn.diffpi.kit.video.ScanFileUtil;
 import cn.diffpi.resource.ApiResource;
 import cn.diffpi.resource.module.video.model.HiVideo;
 import cn.diffpi.resource.platform.config.model.HiConfig;
+import cn.dreampie.common.http.HttpMessage;
+import cn.dreampie.common.http.exception.HttpException;
+import cn.dreampie.common.http.result.HttpStatus;
+import cn.dreampie.orm.transaction.Transaction;
 import cn.dreampie.route.annotation.API;
 import cn.dreampie.route.annotation.DELETE;
 import cn.dreampie.route.annotation.GET;
@@ -119,12 +122,16 @@ public class FileResource extends ApiResource {
                 if (StrKit.notBlank(path)) {
                     // 获取配置的删除目录路径
                     String deletePath = HiConfig.dao.getConfigValue("deletePath");
-                    FileUtil.moveFile(path, deletePath);
-                    hiVideo.delete();
+                    if (StrKit.isBlank(deletePath)) {
+                        throw new HttpException(HttpStatus.NOT_FOUND, "尚未配置回收站！");
+                    }
+                    // 移动成功就删除记录
+                    if (FileUtil.moveFile(path, deletePath)) {
+                        hiVideo.delete();
+                    }
                 }
             }
         }
         return true;
     }
-
 }

@@ -23,7 +23,7 @@ public class StringUtil {
 	 * @param string
 	 * @return
 	 */
-	private static Set<String> split(String string) {
+	public static Set<String> split(String string) {
 		Set<String> set = new HashSet<String>();
 
 		//heyzo    hd    0603    full    wmv02    尚学堂    高明鑫websocket    打开和关闭通道    发送消息(1)    avi

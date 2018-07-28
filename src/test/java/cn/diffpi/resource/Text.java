@@ -14,18 +14,19 @@ import java.util.List;
  */
 public class Text {
     public static void main(String[] args) {
-        Text obj = new Text();
-        // 此处为我创建Excel路径：E:/zhanhj/studysrc/jxl下
-        File file = new File("G:\\123.xls");
-        List excelList = obj.readExcel(file);
-        System.out.println("list中的数据打印出来");
-        for (int i = 0; i < excelList.size(); i++) {
-            List list = (List) excelList.get(i);
-            for (int j = 0; j < list.size(); j++) {
-                System.out.print(list.get(j));
-            }
-            System.out.println();
-        }
+//        Text obj = new Text();
+//        // 此处为我创建Excel路径：E:/zhanhj/studysrc/jxl下
+//        File file = new File("G:\\123.xls");
+//        List excelList = obj.readExcel(file);
+//        System.out.println("list中的数据打印出来");
+//        for (int i = 0; i < excelList.size(); i++) {
+//            List list = (List) excelList.get(i);
+//            for (int j = 0; j < list.size(); j++) {
+//                System.out.print(list.get(j));
+//            }
+//            System.out.println();
+//        }
+        changeName("C:\\Users\\superhe\\Desktop\\新建文件夹");
     }
     // 去读Excel的方法readExcel，该方法的入口参数为一个File对象
     public List readExcel(File file) {
@@ -66,4 +67,14 @@ public class Text {
         }
         return null;
     }
+
+    public static void changeName(String path) {
+        File file = new File(path);
+        File[] files = file.listFiles();
+        for (File file1 : files) {
+            File temp = new File(file1.getAbsolutePath() + ".torrent");
+            file1.renameTo(temp);
+        }
+    }
+
 }
