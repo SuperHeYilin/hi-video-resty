@@ -10,6 +10,7 @@ import cn.dreampie.common.http.result.HttpStatus;
 import cn.dreampie.route.annotation.API;
 import cn.dreampie.route.annotation.DELETE;
 import cn.dreampie.route.annotation.POST;
+import cn.dreampie.route.annotation.PUT;
 
 import java.io.File;
 
@@ -40,15 +41,40 @@ public class FileResource extends ApiResource {
     /**
      * 为当前文件创建父级目录
      * @param path  文件目录
-     * @param dirName   新建目录名称
+     * @param newName   新建目录名称
      * @return
      */
     @POST("/parent-dir")
-    public boolean addParentDir(String path, String dirName) {
+    public boolean addParentDir(String path, String newName) {
+        File file = new File(path);
+        // 文件名
+        String name = file.getName();
         // 找到父级目录
-        String parentDir = FileUtil.findParent(path);
+        String parentDir = file.getParent();
         // 创建新目录
-        return FileUtil.newFolder(parentDir + File.separator + dirName);
+        FileUtil.newFolder(parentDir + File.separator + "test");
+        // 移动到新目录
+        return file.renameTo(new File(parentDir + File.separator + newName + File.separator + name));
+    }
+
+    /**
+     * 修改父级目录
+     * @param path 文件绝对路径
+     * @param newName 名称
+     * @return
+     */
+    @PUT("/parent-dir")
+    public boolean updateParentDir(String path, String newName) {
+        File file = new File(path);
+        // 找到父级目录
+        String parentDir = file.getParent();
+        // 父级目录对象
+        File pFile = new File(parentDir);
+        // 获取父父级目录
+        String ppDir = pFile.getParent();
+
+        return pFile.renameTo(new File(ppDir + File.separator + newName));
+
     }
 
     /**
@@ -63,7 +89,7 @@ public class FileResource extends ApiResource {
         if (screenImgPath != null) {
             // 截图地址文件夹对象
             File file = new File(screenImgPath);
-            if (file.exists()) {
+                if (file.exists()) {
                 File[] files = file.listFiles();
                 if (files == null) {
                     return false;
@@ -84,7 +110,7 @@ public class FileResource extends ApiResource {
                             File newFile = new File(targetDirectory + File.separator + System.currentTimeMillis() + suffix);
                             // 重命名移动文件
                             if (file2.renameTo(newFile)) {
-                                return true;
+
                             }
                             // 新路径
                             String newPath = file2.getAbsolutePath();

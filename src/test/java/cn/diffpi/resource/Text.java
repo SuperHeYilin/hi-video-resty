@@ -1,5 +1,7 @@
 package cn.diffpi.resource;
 
+import cn.diffpi.kit.video.FileUtil;
+import cn.diffpi.resource.file.FileResource;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -27,18 +29,21 @@ public class Text {
 //            System.out.println();
 //        }
 //        changeName("C:\\Users\\superhe\\Desktop\\新建文件夹");
-        File file = new File("D:\\下载\\BaiduNetdiskDownload\\webSocket-8视频\\视频\\视频\\05 用户列表和退出.avi");
-        File newFile = new File("D:\\下载\\BaiduNetdiskDownload\\webSocket-8视频\\视频\\回收站\\2018-07-30 14:27:3505 用户列表和退出.avi");
-        if (newFile.exists()) {
-            System.out.println("视频已经存在");
-        } else {
-            if (file.renameTo(newFile)) {
-                System.out.println("移动成功");
+        File file = new File("C:\\Users\\superHe\\Desktop\\hello\\新建文本文档.txt");
+        // 文件名
+        String name = file.getName();
+        // 找到父级目录
+        String parentDir = file.getParent();
+        // 创建新目录
+        FileUtil.newFolder(parentDir + File.separator + "test");
+        File newFile = new File(parentDir + File.separator + "test" + File.separator + name);
+        System.out.println(parentDir + File.separator + "test" + File.separator + name);
+        if (file.renameTo(newFile)) {
+                System.out.println("成功");
             } else {
-                System.out.println("移动失败");
+                System.out.println("失败");
             }
-        }
-        changeName("C:\\Users\\superHe\\Desktop\\新建文件夹");
+//        changeName("C:\\Users\\superHe\\Desktop\\新建文件夹");
     }
     // 去读Excel的方法readExcel，该方法的入口参数为一个File对象
     public List readExcel(File file) {
