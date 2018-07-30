@@ -1,5 +1,6 @@
 package cn.diffpi.kit.video;
 
+import cn.diffpi.kit.DateUtil;
 import cn.diffpi.kit.StrKit;
 import cn.dreampie.route.core.multipart.FILE;
 
@@ -85,12 +86,21 @@ public class FileUtil {
 			File oldFile = new File(oldPath);
 			String name = oldFile.getName();
 			File newFile = new File(newPath + File.separator + name);
+			// 如果存在 就改名
+			if (newFile.exists()) {
+				System.out.println("视频存在: " + newPath + File.separator + DateUtil.getCurrentDate() + name);
+				newFile = new File(newPath + File.separator + System.currentTimeMillis() + name);
+			}
 			File path = new File(newPath);
-			//判断文件夹是否创建，没有创建则创建新文件夹
+			//判断文件夹是否存在，没有则创建新文件夹
 			if(!path.exists()){
-				if (path.mkdirs()) {
-					temp = oldFile.renameTo(newFile);
-				}
+				temp = path.mkdirs();
+			} else {
+				temp = true;
+			}
+			// 若果创建成功 或者文件夹存在
+			if (temp) {
+				temp = oldFile.renameTo(newFile);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

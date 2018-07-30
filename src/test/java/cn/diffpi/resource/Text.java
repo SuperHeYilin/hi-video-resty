@@ -26,6 +26,18 @@ public class Text {
 //            }
 //            System.out.println();
 //        }
+//        changeName("C:\\Users\\superhe\\Desktop\\新建文件夹");
+        File file = new File("D:\\下载\\BaiduNetdiskDownload\\webSocket-8视频\\视频\\视频\\05 用户列表和退出.avi");
+        File newFile = new File("D:\\下载\\BaiduNetdiskDownload\\webSocket-8视频\\视频\\回收站\\2018-07-30 14:27:3505 用户列表和退出.avi");
+        if (newFile.exists()) {
+            System.out.println("视频已经存在");
+        } else {
+            if (file.renameTo(newFile)) {
+                System.out.println("移动成功");
+            } else {
+                System.out.println("移动失败");
+            }
+        }
         changeName("C:\\Users\\superHe\\Desktop\\新建文件夹");
     }
     // 去读Excel的方法readExcel，该方法的入口参数为一个File对象

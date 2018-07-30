@@ -15,22 +15,24 @@ public class ScanFileUtil {
 	/**
 	 * 文件id
 	 */
-	private static int count  = 1;
+	private int count  = 1;
 
 
 	/**
 	 * 文件集合
 	 */
-	private static List<String> fileList = new ArrayList<>();
+	private List<String> fileList = new ArrayList<>();
 
 	/**
 	 * 文件夹集合
 	 */
-	private static List<Map<String, Object>> directoryList = new ArrayList<>();
+	private List<Map<String, Object>> directoryList = new ArrayList<>();
 
-	private static Map<String, Object> map = new HashMap<>();
+	private Map<String, Object> map = new HashMap<>();
 
-	public static void main(String[] args) {
+	public void main(String[] args) {
+
+		ScanFileUtil scanFileUtil = new ScanFileUtil();
 
 		Map<String, Object> testMap = listFiles("D:\\豪哥");
 		List<Map<String, Object>> testList = (List<Map<String, Object>>) testMap.get("directories");
@@ -50,7 +52,7 @@ public class ScanFileUtil {
 	 * @param path 绝对路径
 	 * @return
 	 */
-	public static Map<String, Object> listFiles(String path) {
+	public Map<String, Object> listFiles(String path) {
 		int temp = count - 1;
 		File file = new File(path);
 
