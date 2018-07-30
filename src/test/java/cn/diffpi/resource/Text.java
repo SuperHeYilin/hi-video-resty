@@ -26,7 +26,7 @@ public class Text {
 //            }
 //            System.out.println();
 //        }
-        changeName("C:\\Users\\superhe\\Desktop\\新建文件夹");
+        changeName("C:\\Users\\superHe\\Desktop\\新建文件夹");
     }
     // 去读Excel的方法readExcel，该方法的入口参数为一个File对象
     public List readExcel(File file) {
