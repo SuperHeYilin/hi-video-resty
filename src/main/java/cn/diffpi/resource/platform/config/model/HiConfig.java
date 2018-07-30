@@ -23,7 +23,7 @@ public class HiConfig extends BaseModel<HiConfig> {
 	 * @return
 	 */
 	public String getConfigValue(String keyName) {
-		HiConfig hiConfig = HiConfig.dao.findFirstBy("name = ?", keyName);
+		HiConfig hiConfig = HiConfig.dao.findFirstBy("key_name = ?", keyName);
 		if (hiConfig == null) {
 			return "";
 		}

@@ -1,5 +1,6 @@
 package cn.diffpi.resource.module.video.model;
 
+import cn.diffpi.kit.DateUtil;
 import cn.diffpi.kit.StrKit;
 import cn.diffpi.resource.BaseModel;
 import cn.dreampie.orm.annotation.Table;
@@ -46,6 +47,7 @@ public class HiVideo extends BaseModel<HiVideo> {
 	public boolean initVideo(List<String> fileList) {
 		// 文件路径名 便利
 		for (String s : fileList) {
+			System.out.println("wwwwwwwwwwww " + s);
 			File file = new File(s);
 			// 如果文件存在
 			if (file.exists()) {
@@ -57,6 +59,8 @@ public class HiVideo extends BaseModel<HiVideo> {
 								.set("size_mb", file.length() / 1024 / 1024)
 								.set("size_b", file.length())
 								.set("state", 0)
+								.set("create_date", DateUtil.getCurrentDate())
+								.set("is_del", "0")
 								.save();
 			}
 		}

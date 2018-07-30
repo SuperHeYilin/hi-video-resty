@@ -81,7 +81,7 @@ public class HiVideoResource extends ApiResource {
 	 */
 	@POST("/init")
 	public boolean initVideo(String path) {
-		Map<String, Object> testMap = ScanFileUtil.listFiles(path);
+		Map<String, Object> testMap = new ScanFileUtil().listFiles(path);
 		List<String> fileList = (List<String>) testMap.get("files");
 		List<Map<String, Object>> dirList = (List<Map<String, Object>>) testMap.get("directories");
 
