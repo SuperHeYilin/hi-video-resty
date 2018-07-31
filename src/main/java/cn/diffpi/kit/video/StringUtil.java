@@ -1,7 +1,8 @@
 package cn.diffpi.kit.video;
 
-import java.util.HashSet;
-import java.util.Set;
+import cn.diffpi.kit.StringKit;
+
+import java.util.*;
 
 /**
  * @author super
@@ -62,6 +63,28 @@ public class StringUtil {
 		}
 		System.out.println(set.size());
 		return set;
+	}
+
+	/**
+	 * 文件类型提取
+	 * @param name
+	 * @return
+	 */
+	public static List<String> getType(String name) {
+		if (!StringKit.isNotBlank(name)) {
+			return null;
+		}
+		List<String> list = new ArrayList<>();
+		String temp;
+
+		int index = name.indexOf("&&#");
+		if (index > 0) {
+			temp = name.substring(index + 3);
+			list = Arrays.asList(temp.split("#"));
+		} else {
+			System.out.println("没有分类");
+		}
+		return list;
 	}
 
 }

@@ -8,6 +8,7 @@ import cn.diffpi.kit.video.StringUtil;
 import cn.diffpi.resource.ApiResource;
 import cn.diffpi.resource.module.video.model.HiVideo;
 import cn.diffpi.resource.module.directory.model.HiDirectory;
+import cn.diffpi.resource.module.videoType.model.HiVideoType;
 import cn.dreampie.route.annotation.API;
 import cn.dreampie.route.annotation.GET;
 import cn.dreampie.route.annotation.POST;
@@ -54,6 +55,15 @@ public class HiVideoResource extends ApiResource {
 		// 视频名称关键字建议
 		Set<String> set = StringUtil.split(videoInfo.get("file_name", String.class));
 		map.put("videoKey", set);
+
+		// 当前视频类型
+		String fileName = videoInfo.get("file_name");
+		List<String> typeList = HiVideoType.dao.findType(fileName);
+		map.put("typeList", typeList);
+
+		// 所以类型
+		List<HiVideoType> allTypeList = HiVideoType.dao.findAll();
+		map.put("allTypeList", allTypeList);
 
 		return map;
 	}
