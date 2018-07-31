@@ -1,7 +1,7 @@
 package cn.diffpi.resource.module.videoType;
 
 import cn.diffpi.resource.ApiResource;
-import cn.diffpi.resource.module.videoType.model.HiVideoType;
+import cn.diffpi.resource.module.videoType.model.HiType;
 import cn.dreampie.route.annotation.*;
 
 import java.util.List;
@@ -11,15 +11,15 @@ import java.util.List;
  * Date:   2018/7/31 14:25
  */
 @API("/video-type")
-public class HiVideoTypeResource extends ApiResource {
+public class HiTypeResource extends ApiResource {
 
     /**
      * 所以类型
      * @return
      */
     @GET
-    public List<HiVideoType> listAll() {
-        return HiVideoType.dao.findAll();
+    public List<HiType> listAll() {
+        return HiType.dao.findAll();
     }
 
     /**
@@ -28,28 +28,28 @@ public class HiVideoTypeResource extends ApiResource {
      * @return
      */
     @GET("/id")
-    public HiVideoType findById(int id) {
-        return HiVideoType.dao.findById(id);
+    public HiType findById(int id) {
+        return HiType.dao.findById(id);
     }
 
     /**
      * 添加类型
-     * @param hiVideoType
+     * @param hiType
      * @return
      */
     @POST
-    public boolean add(HiVideoType hiVideoType) {
-        return hiVideoType.save();
+    public boolean add(HiType hiType) {
+        return hiType.save();
     }
 
     /**
      * 更新某个类型
-     * @param hiVideoType
+     * @param hiType
      * @return
      */
     @PUT
-    public boolean update(HiVideoType hiVideoType) {
-        return hiVideoType.update();
+    public boolean update(HiType hiType) {
+        return hiType.update();
     }
 
     /**
@@ -59,7 +59,7 @@ public class HiVideoTypeResource extends ApiResource {
      */
     @DELETE
     public boolean delete(int id) {
-        return HiVideoType.dao.deleteById(id);
+        return HiType.dao.deleteById(id);
     }
 
 }

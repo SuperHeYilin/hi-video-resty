@@ -1,19 +1,21 @@
 package cn.diffpi.resource.module.video;
 
 import cn.diffpi.core.kit.SplitPage;
-import cn.diffpi.kit.StrKit;
+import cn.diffpi.kit.DateUtil;
+import cn.diffpi.kit.StringKit;
 import cn.diffpi.kit.video.FileUtil;
 import cn.diffpi.kit.video.ScanFileUtil;
 import cn.diffpi.kit.video.StringUtil;
 import cn.diffpi.resource.ApiResource;
-import cn.diffpi.resource.module.video.model.HiVideo;
 import cn.diffpi.resource.module.directory.model.HiDirectory;
-import cn.diffpi.resource.module.videoType.model.HiVideoType;
+import cn.diffpi.resource.module.video.model.HiVideo;
+import cn.diffpi.resource.module.videoType.model.HiType;
 import cn.dreampie.route.annotation.API;
 import cn.dreampie.route.annotation.GET;
 import cn.dreampie.route.annotation.POST;
-import cn.dreampie.route.core.Params;
+import cn.dreampie.route.annotation.PUT;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -47,7 +49,7 @@ public class HiVideoResource extends ApiResource {
 	@GET("/detail")
 	public Map<String, Object> getById(int id) {
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		String parentPath;
 		// 视频信息
 		HiVideo videoInfo = HiVideo.dao.findFirstBy("id = ? and is_del = 0", id);
 		map.put("videoInfo", videoInfo);
@@ -55,14 +57,25 @@ public class HiVideoResource extends ApiResource {
 		// 视频名称关键字建议
 		Set<String> set = StringUtil.split(videoInfo.get("file_name", String.class));
 		map.put("videoKey", set);
+		// 父级目录
+		String path = videoInfo.get("path");
+		File file = new File(path);
+		// 父级目录名称
+		parentPath = file.getParentFile().getName();
+		map.put("parentPath", parentPath);
 
-		// 当前视频类型
-		String fileName = videoInfo.get("file_name");
-		List<String> typeList = HiVideoType.dao.findType(fileName);
-		map.put("typeList", typeList);
+		// 当前视频类型 key类型 name型
+		String videoType = videoInfo.get("video_type");
+		if (StringKit.isNotBlank(videoType)) {
+            String[] typeList = videoType.split(",");
+            map.put("typeList", typeList);
 
-		// 所以类型
-		List<HiVideoType> allTypeList = HiVideoType.dao.findAll();
+            List<String> typeNameList = HiType.dao.findTypeName(videoType);
+            map.put("typeNameList", typeNameList);
+        }
+
+		// 所有类型
+		List<HiType> allTypeList = HiType.dao.findAll();
 		map.put("allTypeList", allTypeList);
 
 		return map;
@@ -119,5 +132,20 @@ public class HiVideoResource extends ApiResource {
 
 		return map;
 	}
+
+    /**
+     * 更新视频类型
+     * @param id
+     * @param videoType
+     * @return
+     */
+    @PUT
+	public boolean update(int id, String videoType) {
+	    HiVideo hiVideo = HiVideo.dao.findById(id);
+	    return hiVideo
+                .set("video_type", videoType)
+                .set("update_date", DateUtil.getCurrentDate())
+                .update();
+    }
 
 }
