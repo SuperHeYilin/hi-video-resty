@@ -24,7 +24,7 @@ public class ELOUtil {
 	 * @param b 对手
 	 * @return
 	 */
-	private static double winHope(int a, int b) {
+	public static double winHope(int a, int b) {
 		double hope = 1 / (1 + Math.pow(10, (b - a) / 400D));
 		System.out.println(Math.pow(10, (b - a) / 400D));
 		System.out.println(a + " 对 " + b + " 胜率期望：" + hope);
@@ -39,7 +39,7 @@ public class ELOUtil {
 	 * @param hopeScore 期望值
 	 * @return 调整后的等级分
 	 */
-	private static double changeRange(int range, double trueScore, double hopeScore) {
+	public static double changeRange(int range, double trueScore, double hopeScore) {
 		double ran = range + K * (trueScore - hopeScore);
 		return ran;
 	}
@@ -49,12 +49,12 @@ public class ELOUtil {
 	 *
 	 * @param a
 	 * @param b
-	 * @param trueScore 比赛结果是针对前者  后者为相反
+	 * @param trueScore 比赛结果是针对前者  后者为相反 0 输 0.5平 1赢
 	 * @return
 	 */
-	private static Map<String, Object> countRange(int a, int b, double trueScore) {
+	public static Map<String, Integer> countRange(int a, int b, double trueScore) {
 
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Integer> map = new HashMap<>();
 
 		double trueBScore = 0D;
 

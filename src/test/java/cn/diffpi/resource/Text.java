@@ -1,5 +1,6 @@
 package cn.diffpi.resource;
 
+import cn.diffpi.kit.video.ELOUtil;
 import cn.diffpi.kit.video.FileUtil;
 import cn.diffpi.resource.file.FileResource;
 import jxl.Sheet;
@@ -8,7 +9,9 @@ import jxl.read.biff.BiffException;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author super
@@ -16,82 +19,10 @@ import java.util.List;
  */
 public class Text {
     public static void main(String[] args) {
-//        Text obj = new Text();
-//        // 此处为我创建Excel路径：E:/zhanhj/studysrc/jxl下
-//        File file = new File("G:\\123.xls");
-//        List excelList = obj.readExcel(file);
-//        System.out.println("list中的数据打印出来");
-//        for (int i = 0; i < excelList.size(); i++) {
-//            List list = (List) excelList.get(i);
-//            for (int j = 0; j < list.size(); j++) {
-//                System.out.print(list.get(j));
-//            }
-//            System.out.println();
-//        }
-//        changeName("C:\\Users\\superhe\\Desktop\\新建文件夹");
-        File file = new File("C:\\Users\\superHe\\Desktop\\hello\\新建文本文档.txt");
-        // 文件名
-        String name = file.getName();
-        // 找到父级目录
-        String parentDir = file.getParent();
-        // 创建新目录
-        FileUtil.newFolder(parentDir + File.separator + "test");
-        File newFile = new File(parentDir + File.separator + "test" + File.separator + name);
-        System.out.println(parentDir + File.separator + "test" + File.separator + name);
-        if (file.renameTo(newFile)) {
-                System.out.println("成功");
-            } else {
-                System.out.println("失败");
-            }
-//        changeName("C:\\Users\\superHe\\Desktop\\新建文件夹");
-    }
-    // 去读Excel的方法readExcel，该方法的入口参数为一个File对象
-    public List readExcel(File file) {
-        try {
-            // 创建输入流，读取Excel
-            InputStream is = new FileInputStream(file.getAbsolutePath());
-            // jxl提供的Workbook类
-            Workbook wb = Workbook.getWorkbook(is);
-            // Excel的页签数量
-            int sheet_size = wb.getNumberOfSheets();
-            for (int index = 0; index < sheet_size; index++) {
-                List<List> outerList=new ArrayList<List>();
-                // 每个页签创建一个Sheet对象
-                Sheet sheet = wb.getSheet(index);
-                // sheet.getRows()返回该页的总行数
-                for (int i = 0; i < sheet.getRows(); i++) {
-                    List innerList=new ArrayList();
-                    // sheet.getColumns()返回该页的总列数
-                    for (int j = 0; j < sheet.getColumns(); j++) {
-                        String cellinfo = sheet.getCell(j, i).getContents();
-                        if(cellinfo.isEmpty()){
-                            continue;
-                        }
-                        innerList.add(cellinfo);
-                        System.out.print(cellinfo);
-                    }
-                    outerList.add(i, innerList);
-                    System.out.println();
-                }
-                return outerList;
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (BiffException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static void changeName(String path) {
-        File file = new File(path);
-        File[] files = file.listFiles();
-        for (File file1 : files) {
-            File temp = new File(file1.getAbsolutePath() + ".torrent");
-            file1.renameTo(temp);
-        }
+        Map<String, Integer> map = new HashMap<>();
+        map = ELOUtil.countRange(1300, 1551, 0);
+        System.out.println(map.get("a"));
+        System.out.println(map.get("b"));
     }
 
 }

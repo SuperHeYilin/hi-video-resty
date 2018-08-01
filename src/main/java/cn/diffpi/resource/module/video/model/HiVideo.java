@@ -2,13 +2,16 @@ package cn.diffpi.resource.module.video.model;
 
 import cn.diffpi.kit.DateUtil;
 import cn.diffpi.kit.StrKit;
+import cn.diffpi.kit.video.ELOUtil;
 import cn.diffpi.resource.BaseModel;
 import cn.dreampie.orm.annotation.Table;
 import cn.dreampie.route.core.Params;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: superhe
@@ -39,6 +42,62 @@ public class HiVideo extends BaseModel<HiVideo> {
 
 		return sql.toString();
 	}
+
+	/**
+	 * 随机两条数据
+	 * @param type 随机类型 all所有随机
+	 * @param id 雷主id
+	 * @return
+	 */
+	public Map<String, Object> getRandVideo(String type, int id) {
+		Map<String, Object> map = new HashMap<>();
+		HiVideo a, b;
+		int aId, bId;
+
+		// 如果所有随机
+		if ("all".equals(type)) {
+			a = findRand();
+			System.out.println(a);
+			aId = a.get("id", Integer.class);
+			do {
+				b = findRand();
+				System.out.println(b);
+				bId = b.get("id", Integer.class);
+			} while (aId == bId);
+		} else {
+			// 通过id找到固定不变的那条数据
+			a = dao.findById(id);
+			do {
+				b = findRand();
+				bId = b.get("id", Integer.class);
+			} while (id == bId);
+		}
+		// 胜率期望值
+		int aScore = a.get("score", Integer.class);
+		int bScore = b.get("score", Integer.class);
+		double winDHope = ELOUtil.winHope(aScore, bScore);
+		Integer winHope = Integer.parseInt(new java.text.DecimalFormat("0").format(winDHope * 100));
+
+		List<HiVideo> list = dao.find("SELECT * from hi_video ORDER BY score DESC LIMIT 0, 20");
+
+		map.put("a", a);
+		map.put("b", b);
+		map.put("winHope", winHope);
+		map.put("range", list);
+		return map;
+	}
+
+	/**
+	 * 得到一条随机记录
+	 * @return
+	 */
+	public HiVideo findRand() {
+		HiVideo hiVideo = dao.findFirst("SELECT * FROM hi_video as a JOIN\n" +
+				"\t(SELECT ROUND(RAND()*((SELECT MAX(id) from hi_video)-(SELECT MIN(id) from hi_video))+(SELECT MIN(id) FROM hi_video AS id)) as bid) as b\n" +
+				"\t\tWHERE a.id >= b.bid ORDER BY a.id");
+		return hiVideo;
+	}
+
 	/**
 	 * 初始化导入视频信息
 	 * @param fileList

@@ -3,6 +3,7 @@ package cn.diffpi.resource.module.video;
 import cn.diffpi.core.kit.SplitPage;
 import cn.diffpi.kit.DateUtil;
 import cn.diffpi.kit.StringKit;
+import cn.diffpi.kit.video.ELOUtil;
 import cn.diffpi.kit.video.FileUtil;
 import cn.diffpi.kit.video.ScanFileUtil;
 import cn.diffpi.kit.video.StringUtil;
@@ -10,6 +11,7 @@ import cn.diffpi.resource.ApiResource;
 import cn.diffpi.resource.module.directory.model.HiDirectory;
 import cn.diffpi.resource.module.video.model.HiVideo;
 import cn.diffpi.resource.module.videoType.model.HiType;
+import cn.dreampie.orm.transaction.Transaction;
 import cn.dreampie.route.annotation.API;
 import cn.dreampie.route.annotation.GET;
 import cn.dreampie.route.annotation.POST;
@@ -79,6 +81,44 @@ public class HiVideoResource extends ApiResource {
 		map.put("allTypeList", allTypeList);
 
 		return map;
+	}
+
+	/**
+	 * 获取pk数据
+	 * @param type
+	 * @param id
+	 * @return
+	 */
+	@GET("/rand")
+	public Map<String, Object> getRandVideo(String type, int id) {
+		return HiVideo.dao.getRandVideo(type, id);
+	}
+
+	/**
+	 * 改变等级分
+	 * @param aId
+	 * @param bId
+	 * @param score
+	 */
+	@POST("/change-score")
+	@Transaction
+	public void changeScore(int aId, int bId, double score) {
+		HiVideo a = HiVideo.dao.findById(aId);
+		HiVideo b = HiVideo.dao.findById(bId);
+		int aOldScore = a.get("score", Integer.class);
+		int bOldScore = b.get("score", Integer.class);
+		Map<String, Integer> map = ELOUtil.countRange(aOldScore, bOldScore, score);
+		int aScore = map.get("a");
+		int bScore = map.get("b");
+
+		a
+				.set("score", aScore)
+				.set("update_date", DateUtil.getCurrentDate())
+				.update();
+		b
+				.set("score", bScore)
+				.set("update_date", DateUtil.getCurrentDate())
+				.update();
 	}
 
 	/**
