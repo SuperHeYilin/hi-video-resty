@@ -15,12 +15,12 @@ public class MyHandler extends Handler {
         SecurityManager securityManager = myHttpRequest.getSecurityManager();
 
         Boolean bool = securityManager.isValiDecrypt();
-        if(bool == true) {
+        if (bool == true) {
             logger.warn("本请求已验证数据加密并填充到steam");
         } else {
             logger.warn("本请求并未验证到数据加密");
         }
 
-        nextHandler.handle(request, response ,isHandled);
+        nextHandler.handle(request, response, isHandled);
     }
 }

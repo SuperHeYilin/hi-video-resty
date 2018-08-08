@@ -5,7 +5,7 @@ package cn.diffpi.response.errresp;
  *    通用的响应对象
  * </pre>
  */
-public class CommonResponse{
+public class CommonResponse {
 
     private boolean successful = false;
 

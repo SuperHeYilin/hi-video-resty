@@ -6,6 +6,7 @@ import java.util.List;
  * <pre>
  * 功能说明：
  * </pre>
+ *
  * @version 1.0
  */
 public interface MainError {

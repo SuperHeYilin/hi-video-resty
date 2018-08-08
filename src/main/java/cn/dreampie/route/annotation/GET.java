@@ -12,15 +12,15 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Documented
 public @interface GET {
-  String value() default "";//请求路径
+    String value() default "";//请求路径
 
-  String[] headers() default {};
+    String[] headers() default {};
 
-  String des() default "";//权限名称
+    String des() default "";//权限名称
 
-  Class<? extends Validator>[] valid() default {};
+    Class<? extends Validator>[] valid() default {};
 
-  boolean cached() default true;
-  
-  boolean isverify() default true;//是否需要拦截权限
+    boolean cached() default true;
+
+    boolean isverify() default true;//是否需要拦截权限
 }

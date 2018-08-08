@@ -9,14 +9,12 @@ import cn.dreampie.client.ClientResult;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-public class TestJob extends AbstractJobService
-{
+public class TestJob extends AbstractJobService {
     public static int i = 1;
 
     @Override
-    protected void doExecute(JobExecutionContext context)
-    {
-        
+    protected void doExecute(JobExecutionContext context) {
+
     }
 
 }

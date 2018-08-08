@@ -33,7 +33,7 @@ public class OrderResouce extends ApiResource {
 
     @GET
     public SplitPage listOrder() {
-        SplitPage page = getModel(SplitPage.class,true);
+        SplitPage page = getModel(SplitPage.class, true);
         // 可变占位符参数对象集合
         ArrayList<Object> arrayList = new ArrayList<Object>();
         // 通过参数获取动态sql
@@ -43,7 +43,6 @@ public class OrderResouce extends ApiResource {
 
         return page;
     }
-
 
 
     /**
@@ -60,38 +59,39 @@ public class OrderResouce extends ApiResource {
      * @Date: 2017-12-04 11:05
      */
     @GET("/orders")
-    public SplitPage orders (String mobile,String state,String create_time,String create_time1,String pay_type){
-        SplitPage page = getModel(SplitPage.class,true);
+    public SplitPage orders(String mobile, String state, String create_time, String create_time1, String pay_type) {
+        SplitPage page = getModel(SplitPage.class, true);
         PtUser ptUser = PtUser.dao.findById(getUserId());
 
         StringBuffer sb = new StringBuffer();
         sb.append("select mo.*,ms.name,cu.phonenum from module_order mo left join client_user cu on mo.user = cu.id ,module_store ms where mo.store = ms.id and mo.del = 0");
-        if(!"1".equals(ptUser.get("user_type"))){
-            Integer userStore = ptUser.get("store",Integer.class);
-            if(userStore == null) {
-                throw new HttpException(HttpStatus.FORBIDDEN,"not_order_auth","未取得访问权限");
+        if (!"1".equals(ptUser.get("user_type"))) {
+            Integer userStore = ptUser.get("store", Integer.class);
+            if (userStore == null) {
+                throw new HttpException(HttpStatus.FORBIDDEN, "not_order_auth", "未取得访问权限");
             }
             sb.append(" and mo.store=" + userStore);
         }
-        if (StringKit.isNotBlank(mobile)){
-            sb.append(" and (mo.no='"+mobile+"' or cu.phonenum='"+mobile+"')");
+        if (StringKit.isNotBlank(mobile)) {
+            sb.append(" and (mo.no='" + mobile + "' or cu.phonenum='" + mobile + "')");
         }
-        if (StringKit.isNotBlank(state)){
-            if (!state.equals("请选择")){
-                sb.append(" and mo.state in ("+state+")");
+        if (StringKit.isNotBlank(state)) {
+            if (!state.equals("请选择")) {
+                sb.append(" and mo.state in (" + state + ")");
             }
         }
-        if (StringKit.isNotBlank(pay_type)){
-            if (!pay_type.equals("请选择")){
-                sb.append(" and mo.pay_type in ("+pay_type+")");
+        if (StringKit.isNotBlank(pay_type)) {
+            if (!pay_type.equals("请选择")) {
+                sb.append(" and mo.pay_type in (" + pay_type + ")");
             }
         }
-        if (StringKit.isNotBlank(create_time)&&StringKit.isNotBlank(create_time1)){
-            sb.append(" and mo.create_time between '"+create_time+"' and '"+create_time1+"'");
+        if (StringKit.isNotBlank(create_time) && StringKit.isNotBlank(create_time1)) {
+            sb.append(" and mo.create_time between '" + create_time + "' and '" + create_time1 + "'");
         }
-        BaseSv.me.splitPageBaseSql(page,"",sb.toString());
+        BaseSv.me.splitPageBaseSql(page, "", sb.toString());
         return page;
     }
+
     /**
      * @Author: Yi Huang
      * @Description:查询已支付订单
@@ -107,46 +107,47 @@ public class OrderResouce extends ApiResource {
      * @Date: 2017-12-07 15:28
      */
     @GET("/refund")
-    public SplitPage refundOrder(String state, String mobile,String create_time,String create_time1,String pay_time,String pay_time1,String pay_type){
-        SplitPage page = getModel(SplitPage.class,true);
+    public SplitPage refundOrder(String state, String mobile, String create_time, String create_time1, String pay_time, String pay_time1, String pay_type) {
+        SplitPage page = getModel(SplitPage.class, true);
         PtUser ptUser = PtUser.dao.findById(getUserId());
 
         StringBuffer sb = new StringBuffer();
         sb.append("select mo.*,ms.name,cu.phonenum from module_order mo left join client_user cu on mo.user = cu.id,module_store ms where mo.store = ms.id and mo.del = 0");
-        if (!"1".equals(ptUser.get("user_type"))){
-            Integer userStore = ptUser.get("store",Integer.class);
-            if(userStore == null) {
-                throw new HttpException(HttpStatus.FORBIDDEN,"not_order_auth","未取得访问权限");
+        if (!"1".equals(ptUser.get("user_type"))) {
+            Integer userStore = ptUser.get("store", Integer.class);
+            if (userStore == null) {
+                throw new HttpException(HttpStatus.FORBIDDEN, "not_order_auth", "未取得访问权限");
             }
             sb.append(" and mo.store=" + userStore);
         }
         String dbState = "'1','2'";
-        if (StringKit.isNotBlank(state)){
-            if (state.equals("1")){
+        if (StringKit.isNotBlank(state)) {
+            if (state.equals("1")) {
                 dbState = "5";
             }
         }
-        sb.append(" and mo.state in ("+dbState+")");
-        if (StringKit.isNotBlank(mobile)){
-            sb.append(" and (mo.no='"+mobile+"' or cu.phonenum='"+mobile+"')");
+        sb.append(" and mo.state in (" + dbState + ")");
+        if (StringKit.isNotBlank(mobile)) {
+            sb.append(" and (mo.no='" + mobile + "' or cu.phonenum='" + mobile + "')");
         }
-        if (StringKit.isNotBlank(pay_type)){
-            if (!pay_type.equals("请选择")){
-                sb.append(" and mo.pay_type in ("+pay_type+")");
+        if (StringKit.isNotBlank(pay_type)) {
+            if (!pay_type.equals("请选择")) {
+                sb.append(" and mo.pay_type in (" + pay_type + ")");
             }
         }
-        if (StringKit.isNotBlank(create_time)&&StringKit.isNotBlank(create_time1)){
-            sb.append(" and mo.create_time between '"+create_time+"' and '"+create_time1+"'");
+        if (StringKit.isNotBlank(create_time) && StringKit.isNotBlank(create_time1)) {
+            sb.append(" and mo.create_time between '" + create_time + "' and '" + create_time1 + "'");
         }
-        if (StringKit.isNotBlank(pay_time)&&StringKit.isNotBlank(pay_time1)){
-            sb.append(" and mo.pay_time between '"+pay_time+"' and '"+pay_time1+"'");
+        if (StringKit.isNotBlank(pay_time) && StringKit.isNotBlank(pay_time1)) {
+            sb.append(" and mo.pay_time between '" + pay_time + "' and '" + pay_time1 + "'");
         }
-        BaseSv.me.splitPageBaseSql(page,"",sb.toString());
+        BaseSv.me.splitPageBaseSql(page, "", sb.toString());
         return page;
     }
 
     /**
      * 订单整单退
+     *
      * @Author: Yi Huang
      * @Description:订单退款
      * @user:GS-bailay
@@ -155,8 +156,8 @@ public class OrderResouce extends ApiResource {
      */
     @PUT("refund")
     @Transaction
-    public boolean refundOrder(Integer id , Double money ,String desc){
-        return Order.dao.orderRefund(id,money,desc);
+    public boolean refundOrder(Integer id, Double money, String desc) {
+        return Order.dao.orderRefund(id, money, desc);
     }
 
     /***
@@ -168,8 +169,8 @@ public class OrderResouce extends ApiResource {
      */
     @PUT("refund/goods")
     @Transaction
-    public boolean refundOrderGoods(Integer goodsId,Integer orderId,Integer refundNum , String desc) {
-        return Order.dao.orderGoodsRefund(goodsId,orderId,refundNum,desc);
+    public boolean refundOrderGoods(Integer goodsId, Integer orderId, Integer refundNum, String desc) {
+        return Order.dao.orderGoodsRefund(goodsId, orderId, refundNum, desc);
     }
 
     /**
@@ -180,9 +181,10 @@ public class OrderResouce extends ApiResource {
      * @Date: 2017-12-04 11:09
      */
     @PUT("/delete")
-    public boolean deleteOrder(String ids){
-        return Order.dao.update("update module_order set del = '1' where id in ("+ids+")");
+    public boolean deleteOrder(String ids) {
+        return Order.dao.update("update module_order set del = '1' where id in (" + ids + ")");
     }
+
     /***
      * 检查订单信息
      * @param no
@@ -201,12 +203,13 @@ public class OrderResouce extends ApiResource {
      */
     @GET("/validate/:no")
     @AuthSign(valiLevel = CredentialType.NO)
-    public boolean validateOrder(String no , String type){
-        return Order.dao.validateOrder(no,type);
+    public boolean validateOrder(String no, String type) {
+        return Order.dao.validateOrder(no, type);
     }
 
     /**
      * 导出Excel
+     *
      * @return
      */
     @GET("/export")
@@ -224,43 +227,43 @@ public class OrderResouce extends ApiResource {
         for (Order order : orderList) {
             OrderVo orderVo = new OrderVo();
 
-            if(StrKit.notBlank(order.<String>get("name"))) {
+            if (StrKit.notBlank(order.<String>get("name"))) {
                 orderVo.setName(order.<String>get("name"));
             } else {
                 orderVo.setName("");
             }
 
-            if(StrKit.notBlank(order.<String>get("no"))) {
+            if (StrKit.notBlank(order.<String>get("no"))) {
                 orderVo.setNo(order.<String>get("no"));
             } else {
                 orderVo.setNo("");
             }
 
-            if(StrKit.notBlank(order.<String>get("phonenum"))) {
+            if (StrKit.notBlank(order.<String>get("phonenum"))) {
                 orderVo.setPhonenum(order.<String>get("phonenum"));
             } else {
                 orderVo.setPhonenum("");
             }
 
-            if(order.get("goods_num", Integer.class) != null ) {
+            if (order.get("goods_num", Integer.class) != null) {
                 orderVo.setGoodsNum(order.get("goods_num", Integer.class));
             } else {
                 orderVo.setGoodsNum(0);
             }
 
-            if(order.get("order_amount", Double.class) != null) {
+            if (order.get("order_amount", Double.class) != null) {
                 orderVo.setOrderAmount(order.get("order_amount", Double.class));
             } else {
                 orderVo.setOrderAmount(0);
             }
 
-            if(order.get("pay_amount", Double.class) != null) {
+            if (order.get("pay_amount", Double.class) != null) {
                 orderVo.setPayAmount(order.get("pay_amount", Double.class));
             } else {
                 orderVo.setPayAmount(0);
             }
 
-            if(order.get("refund_money", Double.class) != null) {
+            if (order.get("refund_money", Double.class) != null) {
                 orderVo.setRefundMoney(order.get("refund_money", Double.class));
             } else {
                 orderVo.setRefundMoney(0);
@@ -268,7 +271,7 @@ public class OrderResouce extends ApiResource {
 
             // 支付类型
             String payType = order.<String>get("pay_type");
-            if(StrKit.notBlank(payType)) {
+            if (StrKit.notBlank(payType)) {
                 if ("0".equals(payType)) {
                     orderVo.setPayType("微信支付");
                 } else if ("1".equals(payType)) {
@@ -285,7 +288,7 @@ public class OrderResouce extends ApiResource {
             }
             // 状态
             String state = order.<String>get("state");
-            if(StrKit.notBlank(state)) {
+            if (StrKit.notBlank(state)) {
                 if ("0".equals(state)) {
                     orderVo.setState("待支付");
                 } else if ("1".equals(state)) {
@@ -307,7 +310,7 @@ public class OrderResouce extends ApiResource {
 
             // 是否推送到erp
             String isSend = order.<String>get("is_send");
-            if(StrKit.notBlank(isSend)) {
+            if (StrKit.notBlank(isSend)) {
                 if ("0".equals(isSend)) {
                     orderVo.setIsSend("未发送");
                 } else if ("1".equals(isSend)) {
@@ -321,13 +324,13 @@ public class OrderResouce extends ApiResource {
                 orderVo.setIsSend("未发送");
             }
 
-            if(StrKit.notBlank(order.<String>get("create_time"))) {
+            if (StrKit.notBlank(order.<String>get("create_time"))) {
                 orderVo.setCreateTime(order.<String>get("create_time"));
             } else {
                 orderVo.setCreateTime("");
             }
 
-            if(StrKit.notBlank(order.<String>get("pay_time"))) {
+            if (StrKit.notBlank(order.<String>get("pay_time"))) {
                 orderVo.setPayTime(order.<String>get("pay_time"));
             } else {
                 orderVo.setPayTime("");
@@ -338,10 +341,10 @@ public class OrderResouce extends ApiResource {
 
         }
         ExcelUtil excelUtil = new ExcelUtil();
-        String[] header = {"门店","订单号","手机号","数量","订单金额","实付金额","退款金额","付款方式","订单状态","发送到erp","创建时间","支付时间"};
+        String[] header = {"门店", "订单号", "手机号", "数量", "订单金额", "实付金额", "退款金额", "付款方式", "订单状态", "发送到erp", "创建时间", "支付时间"};
 
         try {
-            setResponseHeader( getResponse(), "订单信息.xls");
+            setResponseHeader(getResponse(), "订单信息.xls");
             OutputStream os = getResponse().getOutputStream();
             excelUtil.exportDataToExcel(newList, header, "订单详情", os);
         } catch (IOException e) {
@@ -355,12 +358,12 @@ public class OrderResouce extends ApiResource {
     private void setResponseHeader(HttpResponse response, String fileName) {
         try {
             try {
-                fileName = new String(fileName.getBytes(),"ISO8859-1");
+                fileName = new String(fileName.getBytes(), "ISO8859-1");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
             response.setContentType("application/octet-stream;charset=ISO8859-1");
-            response.setHeader("Content-Disposition", "attachment;filename="+ fileName);
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             response.addHeader("Pargam", "no-cache");
             response.addHeader("Cache-Control", "no-cache");
         } catch (Exception ex) {

@@ -16,83 +16,86 @@ import cn.dreampie.route.core.Params;
  * ModelInjector
  */
 public final class ModelInjector {
-	
-	@SuppressWarnings("unchecked")
-	public static <T> T inject(Class<?> modelClass, Params p, boolean skipConvertError,boolean isHasqz) {
-		String modelName = modelClass.getSimpleName();
-		return (T)inject(modelClass, StrKit.firstCharToLowerCase(modelName), p, skipConvertError,isHasqz);
-	}
-	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static final <T> T inject(Class<?> modelClass, String modelName, Params p, boolean skipConvertError,boolean isHasqz) {
-		Object model = null;
-		try {
-			model = modelClass.newInstance();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		
-		if (model instanceof Model)
-			injectActiveRecordModel((Model)model, modelName, p, skipConvertError,isHasqz);
-		else
-			injectCommonModel(model, modelName, p, modelClass, skipConvertError,isHasqz);
-		
-		return (T)model;
-	}
-	
-	private static final void injectCommonModel(Object model, String modelName, Params p, Class<?> modelClass, boolean skipConvertError,boolean isHasqz) {
-		Method[] methods = modelClass.getMethods();
-		for (Method method : methods) {
-			String methodName = method.getName();
-			if (methodName.startsWith("set") == false)	// only setter method
-				continue;
-			
-			Class<?>[] types = method.getParameterTypes();
-			if (types.length != 1)						// only one parameter
-				continue;
-			
-			String attrName = methodName.substring(3);
-			Object value = null;
-			if(isHasqz){
-			    if(p.get(StrKit.firstCharToLowerCase(attrName))!=null){
-			        value=p.get(StrKit.firstCharToLowerCase(attrName),Object.class);
-			    }
-			}else{
-				p.get(modelName + "." + StrKit.firstCharToLowerCase(attrName));
-			}
+
+    @SuppressWarnings("unchecked")
+    public static <T> T inject(Class<?> modelClass, Params p, boolean skipConvertError, boolean isHasqz) {
+        String modelName = modelClass.getSimpleName();
+        return (T) inject(modelClass, StrKit.firstCharToLowerCase(modelName), p, skipConvertError, isHasqz);
+    }
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public static final <T> T inject(Class<?> modelClass, String modelName, Params p, boolean skipConvertError, boolean isHasqz) {
+        Object model = null;
+        try {
+            model = modelClass.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        if (model instanceof Model)
+            injectActiveRecordModel((Model) model, modelName, p, skipConvertError, isHasqz);
+        else
+            injectCommonModel(model, modelName, p, modelClass, skipConvertError, isHasqz);
+
+        return (T) model;
+    }
+
+    private static final void injectCommonModel(Object model, String modelName, Params p, Class<?> modelClass, boolean skipConvertError, boolean isHasqz) {
+        Method[] methods = modelClass.getMethods();
+        for (Method method : methods) {
+            String methodName = method.getName();
+            if (methodName.startsWith("set") == false)    // only setter method
+                continue;
+
+            Class<?>[] types = method.getParameterTypes();
+            if (types.length != 1)                        // only one parameter
+                continue;
+
+            String attrName = methodName.substring(3);
+            Object value = null;
+            if (isHasqz) {
+                if (p.get(StrKit.firstCharToLowerCase(attrName)) != null) {
+                    value = p.get(StrKit.firstCharToLowerCase(attrName), Object.class);
+                }
+            } else {
+                p.get(modelName + "." + StrKit.firstCharToLowerCase(attrName));
+            }
 //			request.getQueryParam(modelName + "." + StrKit.firstCharToLowerCase(attrName));
-			if (value != null) {
-				try {
-					method.invoke(model, TypeConverter.convert(types[0], value.toString()));
-				} catch (Exception e) {
-					if (skipConvertError == false)
-					throw new RuntimeException(e);
-				}
-			}
-		}
-	}
-	
-	@SuppressWarnings("rawtypes")
-	private static final void injectActiveRecordModel(Model<?> model, String modelName, Params p, boolean skipConvertError,boolean isHasqz) {
-		String modelNameAndDot = modelName + ".";
-		if(isHasqz){
-			modelNameAndDot="";
-		}
-		for(int i=0;i<p.getNames().length;i++){
-			String paraKey=p.getNames()[i];
-			if(paraKey.startsWith(modelNameAndDot)) {
-				String paraName = paraKey.substring(modelNameAndDot.length());
-				try{
-					Class colType = model.getColumnType(paraName);
-				}catch(Exception e1){continue;};
-				try {
-					model.set(paraName,p.getValues()[i]);
-				} catch (Exception ex) {
-					if (skipConvertError == false)
-					  throw new RuntimeException("Can not convert parameter: " + modelNameAndDot + paraName, ex);
-				}
-			}
-		}
+            if (value != null) {
+                try {
+                    method.invoke(model, TypeConverter.convert(types[0], value.toString()));
+                } catch (Exception e) {
+                    if (skipConvertError == false)
+                        throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private static final void injectActiveRecordModel(Model<?> model, String modelName, Params p, boolean skipConvertError, boolean isHasqz) {
+        String modelNameAndDot = modelName + ".";
+        if (isHasqz) {
+            modelNameAndDot = "";
+        }
+        for (int i = 0; i < p.getNames().length; i++) {
+            String paraKey = p.getNames()[i];
+            if (paraKey.startsWith(modelNameAndDot)) {
+                String paraName = paraKey.substring(modelNameAndDot.length());
+                try {
+                    Class colType = model.getColumnType(paraName);
+                } catch (Exception e1) {
+                    continue;
+                }
+                ;
+                try {
+                    model.set(paraName, p.getValues()[i]);
+                } catch (Exception ex) {
+                    if (skipConvertError == false)
+                        throw new RuntimeException("Can not convert parameter: " + modelNameAndDot + paraName, ex);
+                }
+            }
+        }
 //		Map<String, List<String>> parasMap = request.getQueryParams();
 //		for (Entry<String, List<String>> e : parasMap.entrySet()) {
 //			String paraKey = e.getKey();
@@ -117,6 +120,6 @@ public final class ModelInjector {
 //				}
 //			}
 //		}
-	}
+    }
 }
 

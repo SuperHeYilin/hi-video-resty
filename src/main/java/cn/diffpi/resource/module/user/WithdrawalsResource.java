@@ -21,7 +21,7 @@ public class WithdrawalsResource extends ApiResource {
 
     @GET
     public SplitPage list() {
-        SplitPage page = getModel(SplitPage.class,true);
+        SplitPage page = getModel(SplitPage.class, true);
 
         String sql = "SELECT\n" +
                 "	cuw.*,\n" +
@@ -47,11 +47,11 @@ public class WithdrawalsResource extends ApiResource {
 
         String name = getParam("name");
         String state = getParam("state");
-        if(StringKit.isNotBlank(name)){
-            sql += " and (cp.nickname like '%"+name+"%' or cu.phonenum like '%"+name+"%')";
+        if (StringKit.isNotBlank(name)) {
+            sql += " and (cp.nickname like '%" + name + "%' or cu.phonenum like '%" + name + "%')";
         }
-        if(StringKit.isNotBlank(state)){
-            sql += " and cuw.state = '"+state+"'";
+        if (StringKit.isNotBlank(state)) {
+            sql += " and cuw.state = '" + state + "'";
         }
 
         UserWithdrawals.dao.splitPageBaseSql(page, "", sql);
@@ -59,25 +59,24 @@ public class WithdrawalsResource extends ApiResource {
     }
 
     /**
-     *
      * @param ids
      * @param feedback
      * @return
      */
     @POST("/confirm")
-    public boolean confirmProcess (String ids , String feedback) {
+    public boolean confirmProcess(String ids, String feedback) {
 
-        if(StrKit.notBlank(ids)) {
-            for (String id: ids.split(",") ){
+        if (StrKit.notBlank(ids)) {
+            for (String id : ids.split(",")) {
                 UserWithdrawals withdrawals = UserWithdrawals.dao.findById(id);
 
                 Client c = new Client(Proper.use("application.properties").get("finish.url"));
                 ClientRequest cr = new ClientRequest();
-                cr.addParam("no",withdrawals.get("no").toString());
+                cr.addParam("no", withdrawals.get("no").toString());
                 c.build(cr);
-                if(c.post().getStatus()== HttpStatus.OK){
+                if (c.post().getStatus() == HttpStatus.OK) {
                     withdrawals
-                            .set("state","1")
+                            .set("state", "1")
                             .update();
                 }
             }
@@ -96,20 +95,20 @@ public class WithdrawalsResource extends ApiResource {
      */
     @POST("/refuse")
     @Transaction
-    public boolean refuse (String ids  , String feedback) {
-        if(StrKit.notBlank(ids)) {
-            for (String id: ids.split(",") ){
+    public boolean refuse(String ids, String feedback) {
+        if (StrKit.notBlank(ids)) {
+            for (String id : ids.split(",")) {
                 UserWithdrawals withdrawals = UserWithdrawals.dao.findById(id);
 
                 Client c = new Client(Proper.use("application.properties").get("close.url"));
                 ClientRequest cr = new ClientRequest();
-                cr.addParam("no",withdrawals.get("no").toString());
-                cr.addParam("feedback",feedback);
+                cr.addParam("no", withdrawals.get("no").toString());
+                cr.addParam("feedback", feedback);
                 c.build(cr);
-                if(c.post().getStatus()== HttpStatus.OK){
+                if (c.post().getStatus() == HttpStatus.OK) {
                     withdrawals
-                            .set("feedback",feedback)
-                            .set("state","2")
+                            .set("feedback", feedback)
+                            .set("state", "2")
                             .update();
                 }
             }

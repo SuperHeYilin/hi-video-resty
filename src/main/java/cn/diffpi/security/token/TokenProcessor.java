@@ -5,46 +5,46 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * 令牌处理器
- *  Created by one__l on 2016年5月10日
+ * Created by one__l on 2016年5月10日
  */
 public class TokenProcessor {
 
-	private static TokenProcessor instance = new TokenProcessor();
+    private static TokenProcessor instance = new TokenProcessor();
 
-	private long previous;
+    private long previous;
 
-	protected TokenProcessor() {
-	}
+    protected TokenProcessor() {
+    }
 
-	public static TokenProcessor getInstance() {
-		return instance;
-	}
+    public static TokenProcessor getInstance() {
+        return instance;
+    }
 
-	public synchronized String generateToken(String msg, boolean timeChange) {
-		try {
+    public synchronized String generateToken(String msg, boolean timeChange) {
+        try {
 
-			long current = System.currentTimeMillis();
-			if (current == previous) 				current++; 
-			previous = current; 
-			MessageDigest md = MessageDigest.getInstance("MD5");
-			md.update(msg.getBytes());
-			if (timeChange) {
-				byte now[] = (new Long(current)).toString().getBytes();
-				md.update(now);
-			}
-			return toHex(md.digest());
-		} catch (NoSuchAlgorithmException e) {
-			return null;
-		}
-	}
+            long current = System.currentTimeMillis();
+            if (current == previous) current++;
+            previous = current;
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(msg.getBytes());
+            if (timeChange) {
+                byte now[] = (new Long(current)).toString().getBytes();
+                md.update(now);
+            }
+            return toHex(md.digest());
+        } catch (NoSuchAlgorithmException e) {
+            return null;
+        }
+    }
 
-	private String toHex(byte buffer[]) {
-		StringBuffer sb = new StringBuffer(buffer.length * 2);
-		for (int i = 0; i < buffer.length; i++) {
-			sb.append(Character.forDigit((buffer[i] & 240) >> 4, 16));
-			sb.append(Character.forDigit(buffer[i] & 15, 16));
-		}
+    private String toHex(byte buffer[]) {
+        StringBuffer sb = new StringBuffer(buffer.length * 2);
+        for (int i = 0; i < buffer.length; i++) {
+            sb.append(Character.forDigit((buffer[i] & 240) >> 4, 16));
+            sb.append(Character.forDigit(buffer[i] & 15, 16));
+        }
 
-		return sb.toString();
-	}
+        return sb.toString();
+    }
 }

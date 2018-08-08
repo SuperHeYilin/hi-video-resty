@@ -1,6 +1,6 @@
 /**
  * WebServiceLocator.java
- *
+ * <p>
  * This file was auto-generated from WSDL
  * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
  */
@@ -10,7 +10,7 @@ package cn.diffpi.kit.soap;
 public class WebServiceLocator extends org.apache.axis.client.Service implements cn.diffpi.kit.soap.WebService {
 
     public WebServiceLocator() {
-        
+
     }
 
 
@@ -41,11 +41,10 @@ public class WebServiceLocator extends org.apache.axis.client.Service implements
     }
 
     public cn.diffpi.kit.soap.WebServiceSoapImpl getWebServiceSoap() throws javax.xml.rpc.ServiceException {
-       java.net.URL endpoint;
+        java.net.URL endpoint;
         try {
             endpoint = new java.net.URL(WebServiceSoap_address);
-        }
-        catch (java.net.MalformedURLException e) {
+        } catch (java.net.MalformedURLException e) {
             throw new javax.xml.rpc.ServiceException(e);
         }
         return getWebServiceSoap(endpoint);
@@ -56,8 +55,7 @@ public class WebServiceLocator extends org.apache.axis.client.Service implements
             cn.diffpi.kit.soap.WebServiceSoapImpl _stub = new cn.diffpi.kit.soap.WebServiceSoapImpl(portAddress, this);
             _stub.setPortName(getWebServiceSoapWSDDServiceName());
             return _stub;
-        }
-        catch (org.apache.axis.AxisFault e) {
+        } catch (org.apache.axis.AxisFault e) {
             return null;
         }
     }
@@ -86,11 +84,10 @@ public class WebServiceLocator extends org.apache.axis.client.Service implements
     }
 
     public cn.diffpi.kit.soap.WebServiceSoapImpl12 getWebServiceSoap12() throws javax.xml.rpc.ServiceException {
-       java.net.URL endpoint;
+        java.net.URL endpoint;
         try {
             endpoint = new java.net.URL(WebServiceSoap12_address);
-        }
-        catch (java.net.MalformedURLException e) {
+        } catch (java.net.MalformedURLException e) {
             throw new javax.xml.rpc.ServiceException(e);
         }
         return getWebServiceSoap12(endpoint);
@@ -101,8 +98,7 @@ public class WebServiceLocator extends org.apache.axis.client.Service implements
             cn.diffpi.kit.soap.WebServiceSoapImpl12 _stub = new cn.diffpi.kit.soap.WebServiceSoapImpl12(portAddress, this);
             _stub.setPortName(getWebServiceSoap12WSDDServiceName());
             return _stub;
-        }
-        catch (org.apache.axis.AxisFault e) {
+        } catch (org.apache.axis.AxisFault e) {
             return null;
         }
     }
@@ -130,8 +126,7 @@ public class WebServiceLocator extends org.apache.axis.client.Service implements
                 _stub.setPortName(getWebServiceSoap12WSDDServiceName());
                 return _stub;
             }
-        }
-        catch (java.lang.Throwable t) {
+        } catch (java.lang.Throwable t) {
             throw new javax.xml.rpc.ServiceException(t);
         }
         throw new javax.xml.rpc.ServiceException("There is no stub implementation for the interface:  " + (serviceEndpointInterface == null ? "null" : serviceEndpointInterface.getName()));
@@ -149,11 +144,9 @@ public class WebServiceLocator extends org.apache.axis.client.Service implements
         java.lang.String inputPortName = portName.getLocalPart();
         if ("WebServiceSoap".equals(inputPortName)) {
             return getWebServiceSoap();
-        }
-        else if ("WebServiceSoap12".equals(inputPortName)) {
+        } else if ("WebServiceSoap12".equals(inputPortName)) {
             return getWebServiceSoap12();
-        }
-        else  {
+        } else {
             java.rmi.Remote _stub = getPort(serviceEndpointInterface);
             ((org.apache.axis.client.Stub) _stub).setPortName(portName);
             return _stub;
@@ -176,26 +169,22 @@ public class WebServiceLocator extends org.apache.axis.client.Service implements
     }
 
     /**
-    * Set the endpoint address for the specified port name.
-    */
+     * Set the endpoint address for the specified port name.
+     */
     public void setEndpointAddress(java.lang.String portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
-        
-if ("WebServiceSoap".equals(portName)) {
+
+        if ("WebServiceSoap".equals(portName)) {
             setWebServiceSoapEndpointAddress(address);
-        }
-        else 
-if ("WebServiceSoap12".equals(portName)) {
+        } else if ("WebServiceSoap12".equals(portName)) {
             setWebServiceSoap12EndpointAddress(address);
-        }
-        else 
-{ // Unknown Port Name
+        } else { // Unknown Port Name
             throw new javax.xml.rpc.ServiceException(" Cannot set Endpoint Address for Unknown Port" + portName);
         }
     }
 
     /**
-    * Set the endpoint address for the specified port name.
-    */
+     * Set the endpoint address for the specified port name.
+     */
     public void setEndpointAddress(javax.xml.namespace.QName portName, java.lang.String address) throws javax.xml.rpc.ServiceException {
         setEndpointAddress(portName.getLocalPart(), address);
     }

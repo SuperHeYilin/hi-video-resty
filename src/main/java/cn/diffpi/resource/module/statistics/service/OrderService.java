@@ -10,6 +10,7 @@ public class OrderService {
 
     /**
      * 获取某个时间段的销售额
+     *
      * @param start
      * @param end
      * @param state 订单状态
@@ -22,6 +23,7 @@ public class OrderService {
 
     /**
      * 查询最近多少天的数据
+     *
      * @param day
      * @return
      */
@@ -34,6 +36,7 @@ public class OrderService {
 
     /**
      * 获取最近多少小时的数据
+     *
      * @param hour
      * @return
      */
@@ -42,12 +45,13 @@ public class OrderService {
                 "pay_time > DATE_SUB(NOW(),INTERVAL ? HOUR) and state = 2 GROUP BY h";
         String sql = "SELECT date_format(pay_time,'%H:00') h, SUM(pay_amount) n from module_order where" +
                 " DATE(pay_time) = DATE(NOW()) and state = 2 GROUP BY x";
-        return  dao.find(sql, hour);
+        return dao.find(sql, hour);
     }
 
     /**
      * 返回过去第几天的销售额 0 今天 1 昨天 2 前天 。。。
-     * @param n 间隔
+     *
+     * @param n     间隔
      * @param state 状态
      * @return
      */
@@ -59,6 +63,7 @@ public class OrderService {
 
     /**
      * 查询今天某个状态的销售额
+     *
      * @return
      */
     public Record getTodayMoney(String state) {
@@ -69,16 +74,18 @@ public class OrderService {
 
     /**
      * 查询今天 按小时分部数据
+     *
      * @return
      */
     public List<Record> getTodayForHour() {
         String sql = "SELECT date_format(pay_time,'%H:00') x, SUM(pay_amount) y from module_order where" +
                 " DATE(pay_time) = DATE(NOW()) and state = 2 GROUP BY x";
-        return  dao.find(sql);
+        return dao.find(sql);
     }
 
     /**
      * 查询本周的数据 按日排列
+     *
      * @return
      */
     public List<Record> getWeekMoney() {
@@ -90,6 +97,7 @@ public class OrderService {
 
     /**
      * 查询当月 按日排列
+     *
      * @return
      */
     public List<Record> getMonthForDay() {
@@ -97,8 +105,10 @@ public class OrderService {
                 "DATE_FORMAT(pay_time,'%Y-%m')=DATE_FORMAT(NOW(),'%Y-%m') and state = 2 GROUP BY x";
         return dao.find(sql);
     }
+
     /**
      * 查询最近多少年当月的销售额 0 本年 1 去年
+     *
      * @param state
      * @return
      */
@@ -111,6 +121,7 @@ public class OrderService {
 
     /**
      * 分别查询最近多少月的销售额
+     *
      * @param month
      * @return
      */
@@ -120,8 +131,10 @@ public class OrderService {
                 "DATE_FORMAT(date_sub(curdate(), interval ? month),'%Y-%m') and state = ? GROUP BY x";
         return dao.find(sql, month, state);
     }
+
     /**
      * 查询最近某年的销售额 0 今年 1 去年 。。。
+     *
      * @param state
      * @return
      */
@@ -129,11 +142,12 @@ public class OrderService {
         String sql = "SELECT SUM(pay_amount) as year_money from module_order where YEAR(pay_time) =" +
                 " (SELECT YEAR(NOW()) - ?) and state = ?";
         Record record = dao.findFirst(sql, y, state);
-        return  record;
+        return record;
     }
 
     /**
      * 获得年平均销售额
+     *
      * @return
      */
     public Record getAvgYear() {
@@ -146,6 +160,7 @@ public class OrderService {
 
     /**
      * 查询今年销售额 按月分部
+     *
      * @return
      */
     public List<Record> getYearByMonthMoney() {
@@ -153,8 +168,10 @@ public class OrderService {
                 "WHERE YEAR(pay_time) = (SELECT YEAR(NOW())) GROUP BY x";
         return dao.find(sql);
     }
+
     /**
      * 查询某个状态的全部销售额
+     *
      * @return
      */
     public Record getAllMoney() {
@@ -164,10 +181,9 @@ public class OrderService {
     }
 
 
-
-
     /**
      * 支付类型排名 微信 余额 提货卡
+     *
      * @return
      */
     public List<Record> getPayTypeRanking() {
@@ -179,6 +195,7 @@ public class OrderService {
 
     /**
      * 热门产品排名
+     *
      * @return
      */
     public List<Record> getGoodsTypeRanking() {
@@ -194,9 +211,9 @@ public class OrderService {
     }
 
 
-
     /**
      * 得到某个状态的订单数量
+     *
      * @param state
      * @return
      **/

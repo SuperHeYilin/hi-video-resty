@@ -15,21 +15,21 @@ import java.util.List;
  */
 @Table(name = "hi_config")
 public class HiConfig extends BaseModel<HiConfig> {
-	public static final HiConfig dao = new HiConfig();
+    public static final HiConfig dao = new HiConfig();
 
-	/**
-	 * 配置查找
-	 * @param keyName 根据键找到值
-	 * @return
-	 */
-	public String getConfigValue(String keyName) {
-		HiConfig hiConfig = HiConfig.dao.findFirstBy("key_name = ?", keyName);
-		if (hiConfig == null) {
-			return "";
-		}
-		return hiConfig.get("value");
-	}
-
+    /**
+     * 配置查找
+     *
+     * @param keyName 根据键找到值
+     * @return
+     */
+    public String getConfigValue(String keyName) {
+        HiConfig hiConfig = HiConfig.dao.findFirstBy("key_name = ?", keyName);
+        if (hiConfig == null) {
+            return "";
+        }
+        return hiConfig.get("value");
+    }
 
 
 }

@@ -13,13 +13,13 @@ import cn.diffpi.security.credential.CredentialType;
  *  Created by one__l on 2016年4月25日
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD,ElementType.TYPE})
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
 public @interface AuthSign {
-	/***
-	 * 权限验证等级
-	 * @return
-	 */
-	CredentialType valiLevel() default CredentialType.IS_AUTH;//默认只需验证身份
-	
+    /***
+     * 权限验证等级
+     * @return
+     */
+    CredentialType valiLevel() default CredentialType.IS_AUTH;//默认只需验证身份
+
 }

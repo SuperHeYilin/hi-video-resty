@@ -43,12 +43,12 @@ public class BusinessServiceErrorResponse extends ErrorResponse {
      *                    this is a big error
      */
     @Deprecated
-    public BusinessServiceErrorResponse(String serviceName, String errorCode, String autoMessage , Locale locale, Object... params) {
-        MainError mainError = MainErrors.getError(MainErrorType.BUSINESS_LOGIC_ERROR,locale);
+    public BusinessServiceErrorResponse(String serviceName, String errorCode, String autoMessage, Locale locale, Object... params) {
+        MainError mainError = MainErrors.getError(MainErrorType.BUSINESS_LOGIC_ERROR, locale);
 
         serviceName = transform(serviceName);
         String subErrorCode = ISV + serviceName + SERVICE_ERROR + errorCode;
-        SubError subError = SubErrors.getSubError(subErrorCode, subErrorCode , autoMessage , locale, params);
+        SubError subError = SubErrors.getSubError(subErrorCode, subErrorCode, autoMessage, locale, params);
         ArrayList<SubError> subErrors = new ArrayList<SubError>();
         subErrors.add(subError);
 

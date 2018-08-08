@@ -9,13 +9,14 @@ public class StoreService {
 
     /**
      * 获得门店总销售额排名
+     *
      * @return
      */
     public List<Record> getRanking(int limit) {
         String sql = "SELECT a.name title,b.su total FROM module_store a,(SELECT store,SUM(pay_amount) AS su FROM module_order " +
                 "where state = '2' GROUP BY store ORDER BY su DESC\n" +
                 ") b WHERE a.id=b.store ORDER BY su DESC limit 0,?";
-        return dao.find(sql,limit);
+        return dao.find(sql, limit);
     }
 
     /**

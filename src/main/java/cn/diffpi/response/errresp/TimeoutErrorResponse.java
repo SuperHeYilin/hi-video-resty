@@ -15,24 +15,24 @@ import cn.diffpi.response.errmodel.SubErrors;
  */
 public class TimeoutErrorResponse extends ErrorResponse {
 
-	private static final String ISP = "isp.";
+    private static final String ISP = "isp.";
 
-	private static final String SERVICE_TIMEOUT = "-service-timeout";
+    private static final String SERVICE_TIMEOUT = "-service-timeout";
 
-	public TimeoutErrorResponse() {
-	}
+    public TimeoutErrorResponse() {
+    }
 
-	public TimeoutErrorResponse(String method, String autoMessage , Locale locale, int timeout) {
-		MainError mainError = SubErrors.getMainError(SubErrorType.ISP_SERVICE_TIMEOUT, locale);
+    public TimeoutErrorResponse(String method, String autoMessage, Locale locale, int timeout) {
+        MainError mainError = SubErrors.getMainError(SubErrorType.ISP_SERVICE_TIMEOUT, locale);
 
-		ArrayList<SubError> subErrors = new ArrayList<SubError>();
+        ArrayList<SubError> subErrors = new ArrayList<SubError>();
 
-		String errorCodeKey = ISP + transform(method) + SERVICE_TIMEOUT;
-		SubError subError = SubErrors.getSubError(errorCodeKey, SubErrorType.ISP_SERVICE_TIMEOUT.value(), autoMessage , locale, method, timeout);
-		subErrors.add(subError);
+        String errorCodeKey = ISP + transform(method) + SERVICE_TIMEOUT;
+        SubError subError = SubErrors.getSubError(errorCodeKey, SubErrorType.ISP_SERVICE_TIMEOUT.value(), autoMessage, locale, method, timeout);
+        subErrors.add(subError);
 
-		setSubErrors(subErrors);
-		setMainError(mainError);
-	}
+        setSubErrors(subErrors);
+        setMainError(mainError);
+    }
 
 }

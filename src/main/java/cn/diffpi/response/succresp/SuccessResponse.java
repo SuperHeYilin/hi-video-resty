@@ -6,9 +6,10 @@ import cn.diffpi.response.succmodel.MainSuccess;
  * <pre>
  * 功能说明：
  * </pre>
+ *
  * @version 1.0
  */
-public class SuccessResponse{
+public class SuccessResponse {
 
     protected String code;
 
@@ -41,13 +42,13 @@ public class SuccessResponse{
         this.data = data;
     }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-    
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
 }
 

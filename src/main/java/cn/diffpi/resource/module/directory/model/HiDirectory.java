@@ -13,25 +13,26 @@ import java.util.Map;
  */
 @Table(name = "hi_directory")
 public class HiDirectory extends BaseModel<HiDirectory> {
-	public static final HiDirectory dao = new HiDirectory();
+    public static final HiDirectory dao = new HiDirectory();
 
-	/**
-	 * 初始化目录结构
-	 * @param dirList
-	 * @return
-	 */
-	public boolean initDirectory(List<Map<String, Object>> dirList) {
-		for (Map<String, Object> map : dirList) {
-			HiDirectory hiDirectory = new HiDirectory();
-			hiDirectory
-							.set("id", map.get("id"))
-							.set("p_id", map.get("fatherId"))
-							.set("name", map.get("fileName"))
-							.set("path", map.get("path"))
-							.save();
-		}
-		return true;
-	}
+    /**
+     * 初始化目录结构
+     *
+     * @param dirList
+     * @return
+     */
+    public boolean initDirectory(List<Map<String, Object>> dirList) {
+        for (Map<String, Object> map : dirList) {
+            HiDirectory hiDirectory = new HiDirectory();
+            hiDirectory
+                    .set("id", map.get("id"))
+                    .set("p_id", map.get("fatherId"))
+                    .set("name", map.get("fileName"))
+                    .set("path", map.get("path"))
+                    .save();
+        }
+        return true;
+    }
 
 
 }

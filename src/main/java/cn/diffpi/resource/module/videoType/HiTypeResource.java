@@ -15,6 +15,7 @@ public class HiTypeResource extends ApiResource {
 
     /**
      * 所以类型
+     *
      * @return
      */
     @GET
@@ -24,6 +25,7 @@ public class HiTypeResource extends ApiResource {
 
     /**
      * 通过id找到某个类型
+     *
      * @param id
      * @return
      */
@@ -34,6 +36,7 @@ public class HiTypeResource extends ApiResource {
 
     /**
      * 添加类型
+     *
      * @param hiType
      * @return
      */
@@ -44,6 +47,7 @@ public class HiTypeResource extends ApiResource {
 
     /**
      * 更新某个类型
+     *
      * @param hiType
      * @return
      */
@@ -54,6 +58,7 @@ public class HiTypeResource extends ApiResource {
 
     /**
      * 删除类型
+     *
      * @param id
      * @return
      */

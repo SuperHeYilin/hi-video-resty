@@ -21,11 +21,11 @@ import cn.dreampie.route.annotation.POST;
  * 用户管理控制类
  */
 @API("/module/client/users")
-public class UserResource extends ApiResource{
+public class UserResource extends ApiResource {
 
     @GET
     public SplitPage list() {
-        SplitPage page = getModel(SplitPage.class,true);
+        SplitPage page = getModel(SplitPage.class, true);
 
         String sql = "SELECT\n" +
                 "	cu.*, cp.avatar,\n" +
@@ -42,8 +42,8 @@ public class UserResource extends ApiResource{
                 "WHERE 1 = 1 and cua.is_stop = '1'";
 
         String name = getParam("name");
-        if(StringKit.isNotBlank(name)){
-            sql += " and cp.nickname like '%"+name+"%'";
+        if (StringKit.isNotBlank(name)) {
+            sql += " and cp.nickname like '%" + name + "%'";
         }
 
         User.dao.splitPageBaseSql(page, "", sql);
@@ -72,12 +72,12 @@ public class UserResource extends ApiResource{
     public void stop(Integer id) {
         Client c = new Client(Proper.use("application.properties").get("stop.url"));
         ClientRequest cr = new ClientRequest();
-        cr.addParam("key",id+"");
+        cr.addParam("key", id + "");
         c.build(cr);
-        if(c.delete().getStatus()== HttpStatus.OK){
+        if (c.delete().getStatus() == HttpStatus.OK) {
             new User()
-                    .set("id",id)
-                    .set("state","3")
+                    .set("id", id)
+                    .set("state", "3")
                     .update();
         }
 
@@ -89,8 +89,8 @@ public class UserResource extends ApiResource{
     @POST("/start")
     public void start(Integer id) {
         new User()
-                .set("id",id)
-                .set("state","0")
+                .set("id", id)
+                .set("state", "0")
                 .update();
     }
 }

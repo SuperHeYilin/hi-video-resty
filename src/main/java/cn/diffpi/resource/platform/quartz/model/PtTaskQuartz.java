@@ -11,17 +11,19 @@ import cn.dreampie.orm.annotation.Table;
  */
 @Table(name = "qrtz_triggers")
 public class PtTaskQuartz extends BaseModel<PtTaskQuartz> {
-	public final static PtTaskQuartz dao = new PtTaskQuartz();
-	public static final Map<String, String> STATE = new HashMap<String, String>(); 
-	static {  
-		STATE.put("WAITING", "等待");
-		STATE.put("PAUSED", "暂停");
-		STATE.put("ACQUIRED", "正常执行");
-		STATE.put("BLOCKED", "阻塞");
-		STATE.put("ERROR", "错误");
+    public final static PtTaskQuartz dao = new PtTaskQuartz();
+    public static final Map<String, String> STATE = new HashMap<String, String>();
+
+    static {
+        STATE.put("WAITING", "等待");
+        STATE.put("PAUSED", "暂停");
+        STATE.put("ACQUIRED", "正常执行");
+        STATE.put("BLOCKED", "阻塞");
+        STATE.put("ERROR", "错误");
     }
-	public void getupstate(){
-		String state = this.get("TRIGGER_STATE");
-		this.set("TRIGGER_STATE", STATE.get(state));
-	}
+
+    public void getupstate() {
+        String state = this.get("TRIGGER_STATE");
+        this.set("TRIGGER_STATE", STATE.get(state));
+    }
 }

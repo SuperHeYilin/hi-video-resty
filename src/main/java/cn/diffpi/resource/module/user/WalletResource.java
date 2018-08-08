@@ -18,7 +18,7 @@ public class WalletResource extends ApiResource {
 
     @GET
     public SplitPage list() {
-        SplitPage page = getModel(SplitPage.class,true);
+        SplitPage page = getModel(SplitPage.class, true);
 
         String sql = "SELECT\n" +
                 "	cuwd.*,\n" +
@@ -35,11 +35,11 @@ public class WalletResource extends ApiResource {
 
         String name = getParam("name");
         String mode = getParam("mode");
-        if(StringKit.isNotBlank(name)){
-            sql += " and (cp.nickname like '%"+name+"%' or cu.phonenum like '%"+name+"%')";
+        if (StringKit.isNotBlank(name)) {
+            sql += " and (cp.nickname like '%" + name + "%' or cu.phonenum like '%" + name + "%')";
         }
-        if(StringKit.isNotBlank(mode)){
-            sql += " and cuwd.use_type = '"+mode+"'";
+        if (StringKit.isNotBlank(mode)) {
+            sql += " and cuwd.use_type = '" + mode + "'";
         }
 
         UserWallet.dao.splitPageBaseSql(page, "", sql);
@@ -54,14 +54,14 @@ public class WalletResource extends ApiResource {
      * @param plusMinus
      */
     @POST("/change")
-    public void changeBalance(Integer userId , String body , Double money , String plusMinus){
-        UserWallet clientUserWallet = UserWallet.dao.findFirstBy(" user = ? ",userId);
-        if(clientUserWallet == null) {
-            throw new HttpException(HttpStatus.UNPROCESSABLE_ENTITY,"paramErr","未找到用户钱包");
+    public void changeBalance(Integer userId, String body, Double money, String plusMinus) {
+        UserWallet clientUserWallet = UserWallet.dao.findFirstBy(" user = ? ", userId);
+        if (clientUserWallet == null) {
+            throw new HttpException(HttpStatus.UNPROCESSABLE_ENTITY, "paramErr", "未找到用户钱包");
         }
 
         UserConstant.PlusMinus plusMinus1 = plusMinus.equals("0") ? UserConstant.PlusMinus.MINUS : UserConstant.PlusMinus.PLUS;
-        UserWalletDetail.dao.useWallet(clientUserWallet.<Integer>get("id") , userId , body , "" , money , plusMinus1 , UserConstant.WalletType.CHANGE , "1" , UserConstant.WalletState.TIMELY);
+        UserWalletDetail.dao.useWallet(clientUserWallet.<Integer>get("id"), userId, body, "", money, plusMinus1, UserConstant.WalletType.CHANGE, "1", UserConstant.WalletState.TIMELY);
 
     }
 

@@ -12,7 +12,7 @@ public class UserConstant {
     /***
      * 钱包明细使用状态
      */
-    public static enum WalletState{
+    public static enum WalletState {
         /**
          * 等待，有后续操作的时候用到
          */
@@ -36,7 +36,7 @@ public class UserConstant {
     /***
      * 是加是减
      */
-    public static enum PlusMinus{
+    public static enum PlusMinus {
         /**
          * 加
          */
@@ -61,7 +61,7 @@ public class UserConstant {
     /***
      * 消费类型
      */
-    public static enum WalletType{
+    public static enum WalletType {
         /**
          * 充值
          */

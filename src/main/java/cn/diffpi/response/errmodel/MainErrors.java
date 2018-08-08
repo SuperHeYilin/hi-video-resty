@@ -21,15 +21,15 @@ public class MainErrors {
     private static final String ERROR_CODE_PREFIX = "ERROR_";
     private static final String ERROR_SOLUTION_SUBFIX = "_SOLUTION";
 
-    public static MainError getError(MainErrorType mainErrorType,Locale locale,Object... params) {
-        String errorMessage = getErrorMessage(ERROR_CODE_PREFIX + mainErrorType.value(),locale,params);
+    public static MainError getError(MainErrorType mainErrorType, Locale locale, Object... params) {
+        String errorMessage = getErrorMessage(ERROR_CODE_PREFIX + mainErrorType.value(), locale, params);
         String errorSolution = getErrorSolution(ERROR_CODE_PREFIX + mainErrorType.value() + ERROR_SOLUTION_SUBFIX, locale);
         return new SimpleMainError(mainErrorType.value(), errorMessage, errorSolution);
     }
 
-    private static String getErrorMessage(String code, Locale locale,Object... params) {
+    private static String getErrorMessage(String code, Locale locale, Object... params) {
         try {
-        	 Assert.notNull(MessageSourceAccessorUtil.messageSourceAccessor, "请先设置错误解决方案的国际化资源");
+            Assert.notNull(MessageSourceAccessorUtil.messageSourceAccessor, "请先设置错误解决方案的国际化资源");
             return MessageSourceAccessorUtil.messageSourceAccessor.getMessage(code, params, locale);
         } catch (NoSuchMessageException e) {
             logger.error("不存在对应的错误键：{}，请检查是否在i18n/err的错误资源", code);

@@ -16,6 +16,7 @@ public class HiType extends BaseModel<HiType> {
 
     /**
      * 同过简写集合找到类型名称
+     *
      * @param names
      * @return
      */

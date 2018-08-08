@@ -10,12 +10,10 @@ import cn.dreampie.server.RestyServer;
 import cn.dreampie.server.provider.jetty.JettyServerProvider;
 
 
-public class QuartzManager
-{
+public class QuartzManager {
     public static void main(String[] args) throws ClassNotFoundException,
-            ParseException, SchedulerException
-    {
-    	System.out.println(false?0:1);
+            ParseException, SchedulerException {
+        System.out.println(false ? 0 : 1);
 //    	RedisCache.instance().add("lb23", "lb_1_2", "asdasdasdsadasds");
 //    	Jedis jedis=new Jedis("127.0.0.1", 6379);
 //    	Set<String> rawKeys = jedis.keys("_query::default::pt_app_banner::*");

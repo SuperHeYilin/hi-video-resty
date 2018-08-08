@@ -22,10 +22,8 @@ import cn.dreampie.route.core.Route;
 import cn.dreampie.route.handler.cors.CORSHandler;
 import cn.dreampie.route.interceptor.transaction.TransactionInterceptor;
 
-public class AppConfig extends Config
-{
-    public void configConstant(ConstantLoader constantLoader)
-    {
+public class AppConfig extends Config {
+    public void configConstant(ConstantLoader constantLoader) {
         // 单页应用 避免解析路径springframework
         constantLoader.setDefaultForward("/");
 
@@ -33,14 +31,12 @@ public class AppConfig extends Config
         MessageSourceAccessorUtil.initMessageSource();
     }
 
-    public void configResource(ResourceLoader resourceLoader)
-    {
+    public void configResource(ResourceLoader resourceLoader) {
         // 设置resource的目录 减少启动扫描目录
         resourceLoader.addIncludePackages("cn.diffpi.resource");
     }
 
-    public void configPlugin(PluginLoader pluginLoader)
-    {
+    public void configPlugin(PluginLoader pluginLoader) {
         DruidDataSourceProvider ddsp = new DruidDataSourceProvider("default");
         ActiveRecordPlugin activeRecordPlugin = new ActiveRecordPlugin(ddsp);
         activeRecordPlugin.addIncludePackages("cn.diffpi.resource");
@@ -50,8 +46,7 @@ public class AppConfig extends Config
         Colorer.devEnable(false);
     }
 
-    public void configInterceptor(InterceptorLoader interceptorLoader)
-    {
+    public void configInterceptor(InterceptorLoader interceptorLoader) {
         // 权限拦截器 limit 为最大登录session数
         // interceptorLoader.add(new MySessionInterceptor(new
         // MyAuthenticateService()));
@@ -62,13 +57,11 @@ public class AppConfig extends Config
         interceptorLoader.add(new MySecurityIntercepter());
     }
 
-    public void afterRouterBuild(Map<String, Map<String, Set<Route>>> routesMap)
-    {
-        
+    public void afterRouterBuild(Map<String, Map<String, Set<Route>>> routesMap) {
+
     }
 
-    public void configHandler(HandlerLoader handlerLoader)
-    {
+    public void configHandler(HandlerLoader handlerLoader) {
         // 跨域
 
         CORSHandler corsHandler = new CORSHandler();
@@ -83,8 +76,7 @@ public class AppConfig extends Config
     /**
      * Call back after Resty start
      */
-    public void afterStart()
-    {
+    public void afterStart() {
         PerUrlManager.me.pass();
     }
 }

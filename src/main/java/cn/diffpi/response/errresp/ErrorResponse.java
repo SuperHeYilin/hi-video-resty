@@ -13,9 +13,10 @@ import cn.diffpi.response.errmodel.SubError;
  * <pre>
  * 功能说明：
  * </pre>
+ *
  * @version 1.0
  */
-public class ErrorResponse{
+public class ErrorResponse {
 
     protected String errorToken = "";//CommonConstant.ERROR_TOKEN;
 
@@ -71,7 +72,7 @@ public class ErrorResponse{
         this.subErrors = subErrors;
     }
 
-    public void addSubError(SubError subError){
+    public void addSubError(SubError subError) {
         if (subErrors == null) {
             subErrors = new ArrayList<SubError>();
         }
@@ -99,10 +100,10 @@ public class ErrorResponse{
      * @return
      */
     protected String transform(String method) {
-        if(method != null){
+        if (method != null) {
             method = method.replace(".", "-");
             return method;
-        }else{
+        } else {
             return "LACK_METHOD";
         }
     }

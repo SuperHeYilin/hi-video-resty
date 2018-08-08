@@ -29,6 +29,7 @@ public class StatisticsResource extends ApiResource {
 
     /**
      * 打包SimpleCard组件数据
+     *
      * @return
      */
     @GET("/simplecard")
@@ -47,6 +48,7 @@ public class StatisticsResource extends ApiResource {
 
     /**
      * 获取第二部分数据
+     *
      * @return
      */
     @GET("/secondcard")
@@ -68,7 +70,7 @@ public class StatisticsResource extends ApiResource {
         if (order.getMonthMoney(0, "2").get("month_money") != null) {
             thisMonth = Double.parseDouble(order.getMonthMoney(0, "2").get("month_money").toString());
         }
-        if ( order.getMonthMoney(1, "2").get("month_money") != null) {
+        if (order.getMonthMoney(1, "2").get("month_money") != null) {
             lastYearMonth = Double.parseDouble(order.getMonthMoney(1, "2").get("month_money").toString());
         }
         // 添加当月的同比增长率
@@ -77,14 +79,14 @@ public class StatisticsResource extends ApiResource {
         //今日昨日销售额
         double thisDay = 0;
         double lastDay = 0;
-        if (order.getSomeDay(0, "2").get("pay_amount") != null ) {
+        if (order.getSomeDay(0, "2").get("pay_amount") != null) {
             thisDay = Double.parseDouble(order.getSomeDay(0, "2").get("pay_amount").toString());
         }
-        if ( order.getSomeDay(1, "2").get("pay_amount") != null) {
+        if (order.getSomeDay(1, "2").get("pay_amount") != null) {
             lastDay = Double.parseDouble(order.getSomeDay(1, "2").get("pay_amount").toString());
         }
         //添加当日的同比增长率
-        map.put("day_year_compare", toFormat(thisDay,lastDay, 2));
+        map.put("day_year_compare", toFormat(thisDay, lastDay, 2));
 
         //添加月平均销售额
         double thisAvgMonth = 0;
@@ -96,17 +98,17 @@ public class StatisticsResource extends ApiResource {
         //今年去年销售额
         double thisYear = 0;
         double lastYear = 0;
-        if (order.getYearMoney(0, "2").get("year_money") != null ) {
+        if (order.getYearMoney(0, "2").get("year_money") != null) {
             thisYear = Double.parseDouble(order.getYearMoney(0, "2").get("year_money").toString());
         }
-        if ( order.getYearMoney(1, "2").get("year_money") != null) {
+        if (order.getYearMoney(1, "2").get("year_money") != null) {
             lastYear = Double.parseDouble(order.getYearMoney(1, "2").get("year_money").toString());
         }
         // 添加昨日销售额
         map.put("yesterday", lastDay);
 
         //添加当年的同比增长率
-        map.put("year_year_compare", toFormat(thisYear,lastYear, 2));
+        map.put("year_year_compare", toFormat(thisYear, lastYear, 2));
 
         // 查询最近18个月的数据
         map.put("recently_month", order.getRecentlyMonth(18, "2"));
@@ -122,6 +124,7 @@ public class StatisticsResource extends ApiResource {
 
     /**
      * 返回第三部分数据
+     *
      * @return
      */
     @GET("/thirdcard")
@@ -139,24 +142,26 @@ public class StatisticsResource extends ApiResource {
 
     /**
      * 返回第三部分 时间切换的数据
+     *
      * @return
      */
     @POST("/thirdtime")
     public List<Record> getThirdCardTime(String type) {
-       switch (type) {
-           case "today":
-               return order.getTodayForHour();
-           case "week":
-               return order.getWeekMoney();
-           case "month":
-               return order.getMonthForDay();
-           default:
-               return order.getYearByMonthMoney();
-       }
+        switch (type) {
+            case "today":
+                return order.getTodayForHour();
+            case "week":
+                return order.getWeekMoney();
+            case "month":
+                return order.getMonthForDay();
+            default:
+                return order.getYearByMonthMoney();
+        }
     }
 
     /**
      * 时间切换查询销售额
+     *
      * @param d1 起始
      * @param d2 结束
      * @return
@@ -200,7 +205,7 @@ public class StatisticsResource extends ApiResource {
         }
 
         //大于0天 小于30天 按天分部数据
-        if (diffDays > 0 && diffDays <= 30 ) {
+        if (diffDays > 0 && diffDays <= 30) {
             sb.append("%Y-%m-%d");
         }
 
@@ -223,6 +228,7 @@ public class StatisticsResource extends ApiResource {
 
     /**
      * 返回第四部分数据
+     *
      * @return
      */
     @GET("/fourthcard")
@@ -283,8 +289,9 @@ public class StatisticsResource extends ApiResource {
 
     /**
      * 计算同比环比
-     * @param v1 当前 今年 当月 今日
-     * @param v2 比较 去年 去年当月 昨日
+     *
+     * @param v1    当前 今年 当月 今日
+     * @param v2    比较 去年 去年当月 昨日
      * @param scale 保留的小数位数
      * @return
      */
@@ -292,24 +299,25 @@ public class StatisticsResource extends ApiResource {
         if (scale < 0) {
             throw new IllegalArgumentException("保留小数 参数出错");
         }
-        BigDecimal b2 ;
+        BigDecimal b2;
         if (v2 == 0) {
-        	b2 = new BigDecimal(Double.toString(1));
-        }else{
-        	b2 = new BigDecimal(Double.toString(v2));
+            b2 = new BigDecimal(Double.toString(1));
+        } else {
+            b2 = new BigDecimal(Double.toString(v2));
         }
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b3 = new BigDecimal(Double.toString(100.00));
 
         System.out.println("新的增长率：当前：" + b1 + " 对比：" + b2 + " 结果: " +
-                (b1.subtract(v2==0?new BigDecimal(0):b2)).multiply(b3).divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue()
+                (b1.subtract(v2 == 0 ? new BigDecimal(0) : b2)).multiply(b3).divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue()
         );
 
-        return (b1.subtract(v2==0?new BigDecimal(0):b2)).multiply(b3).divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
+        return (b1.subtract(v2 == 0 ? new BigDecimal(0) : b2)).multiply(b3).divide(b2, scale, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     /**
      * 计算月平均销售
+     *
      * @return
      */
     private String formatAvg(double m) {
@@ -322,7 +330,7 @@ public class StatisticsResource extends ApiResource {
 
         String result = numberFormat.format(m / n);
 
-        System.out.println(m +" ÷ " + n + "月平均销售额" + result);
+        System.out.println(m + " ÷ " + n + "月平均销售额" + result);
 
         return result;
     }

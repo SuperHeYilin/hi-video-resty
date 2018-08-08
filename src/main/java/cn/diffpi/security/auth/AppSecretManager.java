@@ -14,7 +14,7 @@ public interface AppSecretManager {
      * @return
      */
     String getSecret(String appKey);
-    
+
     /***
      * 得到访问标记
      * @param appKey

@@ -23,200 +23,200 @@ import com.alibaba.druid.util.StringUtils;
  * Created by one__l on 2016年4月15日
  */
 public class MySecurityManager implements SecurityManager {
-	private static final Logger log = Logger.getLogger(MySecurityManager.class);
+    private static final Logger log = Logger.getLogger(MySecurityManager.class);
 
-	private RequestContext context;
+    private RequestContext context;
 
-	private final AesTool aes = new AesTool();
-	private final Signature signatureUtil = new Signature();
+    private final AesTool aes = new AesTool();
+    private final Signature signatureUtil = new Signature();
 
-	public MySecurityManager(RequestContext context) {
-		this.context = context;
-	}
+    public MySecurityManager(RequestContext context) {
+        this.context = context;
+    }
 
-	public boolean isValiSign() {
+    public boolean isValiSign() {
 		/*if(!isValiTokenTimeout()){
 			return false;
 		}*/
-		
-		String signature = context.getAuthParam().get("sign");
-		String appid = context.getAuthParam().get("appid");
-		String timestamp = context.getAuthParam().get("timestamp");
-		String lol = context.getAuthParam().get("lol");
-		String token = "cbt_kuaigou_token";
-		long millis = Long.valueOf(timestamp);
 
-		if (signatureUtil.isValid(signature, appid, lol, millis, token)) {
-			return true;
-		}
+        String signature = context.getAuthParam().get("sign");
+        String appid = context.getAuthParam().get("appid");
+        String timestamp = context.getAuthParam().get("timestamp");
+        String lol = context.getAuthParam().get("lol");
+        String token = "cbt_kuaigou_token";
+        long millis = Long.valueOf(timestamp);
 
-		return false;
-	}
-	
-	public boolean isValiDecrypt(){
-		if (!this.isValiSign()) {
-			return false;
-		} else {
-			if (context.getHttpMethod().equals("GET") || context.getHttpMethod().equals("DELETE")) {
+        if (signatureUtil.isValid(signature, appid, lol, millis, token)) {
+            return true;
+        }
 
-			} else {
-				try {
-					if(context.getOriginalStream() == null){
-						return true;
-					}
-					
-					String encryptReqStr = getStrToStream(context.getOriginalStream());
-					String digest = signatureUtil.digest(encryptReqStr, "MD5");
+        return false;
+    }
 
-					if (StringUtils.equals(digest, context.getAuthParam().get("lol"))) {
-						String secret = context.getSecret();
+    public boolean isValiDecrypt() {
+        if (!this.isValiSign()) {
+            return false;
+        } else {
+            if (context.getHttpMethod().equals("GET") || context.getHttpMethod().equals("DELETE")) {
 
-						String decryptReqStr = aes.decrypt(encryptReqStr, secret);
+            } else {
+                try {
+                    if (context.getOriginalStream() == null) {
+                        return true;
+                    }
 
-						log.info(decryptReqStr);
+                    String encryptReqStr = getStrToStream(context.getOriginalStream());
+                    String digest = signatureUtil.digest(encryptReqStr, "MD5");
 
-						byte[] bytes = decryptReqStr.getBytes();
-						InputStream bais = new ByteArrayInputStream(bytes);
+                    if (StringUtils.equals(digest, context.getAuthParam().get("lol"))) {
+                        String secret = context.getSecret();
 
-						context.setDecryptStream(bais);
-						
-						return true;
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return false;
-	}
+                        String decryptReqStr = aes.decrypt(encryptReqStr, secret);
 
-	@Override
-	public boolean buildDecrypt() {
-		try {
-			if(context.getOriginalStream() == null){
-				return true;
-			}
+                        log.info(decryptReqStr);
 
-			String encryptReqStr = getStrToStream(context.getOriginalStream());
-			String digest = signatureUtil.digest(encryptReqStr, "MD5");
+                        byte[] bytes = decryptReqStr.getBytes();
+                        InputStream bais = new ByteArrayInputStream(bytes);
 
-			if (StringUtils.equals(digest, context.getAuthParam().get("lol"))) {
-				String secret = context.getSecret();
+                        context.setDecryptStream(bais);
 
-				String decryptReqStr = aes.decrypt(encryptReqStr, secret);
+                        return true;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-				log.info(decryptReqStr);
+        return false;
+    }
 
-				byte[] bytes = decryptReqStr.getBytes();
-				InputStream bais = new ByteArrayInputStream(bytes);
+    @Override
+    public boolean buildDecrypt() {
+        try {
+            if (context.getOriginalStream() == null) {
+                return true;
+            }
 
-				context.setDecryptStream(bais);
+            String encryptReqStr = getStrToStream(context.getOriginalStream());
+            String digest = signatureUtil.digest(encryptReqStr, "MD5");
 
-				return true;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
+            if (StringUtils.equals(digest, context.getAuthParam().get("lol"))) {
+                String secret = context.getSecret();
 
-	public boolean isValiAuthTimeout() {
-		if(!isValiAuth()){
-			return false;
-		}
-		
-		return true;
-	}
-	
-	public boolean isValiTokenTimeout() {
-		if(!isValiToken()){
-			return false;
-		}
-		
-		return true;
-	}
+                String decryptReqStr = aes.decrypt(encryptReqStr, secret);
 
-	public boolean isValiToken() {
+                log.info(decryptReqStr);
+
+                byte[] bytes = decryptReqStr.getBytes();
+                InputStream bais = new ByteArrayInputStream(bytes);
+
+                context.setDecryptStream(bais);
+
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isValiAuthTimeout() {
+        if (!isValiAuth()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isValiTokenTimeout() {
+        if (!isValiToken()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean isValiToken() {
 		/*if(!isValiAuthParam()){
 			return false;
 		}*/
-		if(context.getAppToken() != null){
-			if(TokenManager.validateToken(context.getAppToken())){
-				return TokenManager.getAccessToken(context.getAppToken()) != null ? true : false;
-			} else {
-				return false;
-			}
-		}
-		
-		return false;
-	}
-	
-	public boolean isValiAuth() {
-		String appid = context.getAuthParam().get("appid");
-		if(appid.equals("cbt_kuaigou_appid")) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	public boolean isValiAuthParam(){
-		Map<String, String> map = context.getAuthParam();
-		
-		for (Map.Entry<String, String> obj : map.entrySet()) {
-			if(StringUtils.isEmpty(obj.getValue())){
-				return false;
-			}
-		}
-		
-		return true;
-	}
+        if (context.getAppToken() != null) {
+            if (TokenManager.validateToken(context.getAppToken())) {
+                return TokenManager.getAccessToken(context.getAppToken()) != null ? true : false;
+            } else {
+                return false;
+            }
+        }
 
-	/***
-	 * 得到流字符串 适用于客户端以流的形式传递的数据
-	 * 
-	 * @return
-	 */
-	private String getStrToStream(InputStream is) {
-		try {
-			BufferedInputStream br = new BufferedInputStream(is);
+        return false;
+    }
 
-			StringBuffer sb = new StringBuffer();
-			byte[] buffer = new byte[1024];
-			int iRead;
-			while ((iRead = br.read(buffer)) != -1) {
-				sb.append(new String(buffer, 0, iRead, "UTF-8"));
-			}
+    public boolean isValiAuth() {
+        String appid = context.getAuthParam().get("appid");
+        if (appid.equals("cbt_kuaigou_appid")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-			String str = sb.toString();
+    public boolean isValiAuthParam() {
+        Map<String, String> map = context.getAuthParam();
 
-			return str;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        for (Map.Entry<String, String> obj : map.entrySet()) {
+            if (StringUtils.isEmpty(obj.getValue())) {
+                return false;
+            }
+        }
 
-		return null;
-	}
+        return true;
+    }
 
-	@Override
-	public PtPermissionData getNowRouteData() {
-		AccessToken at = TokenManager.getAccessToken(context.getAppToken());
-		if(at != null){
-			Integer userId = Integer.valueOf(at.getExtra("userId").toString());
-			return PtPermission.dao.getDataAuth(userId,context.getUrl(),context.getHttpMethod());
-		}
-		return null;
-	}
+    /***
+     * 得到流字符串 适用于客户端以流的形式传递的数据
+     *
+     * @return
+     */
+    private String getStrToStream(InputStream is) {
+        try {
+            BufferedInputStream br = new BufferedInputStream(is);
 
-	@Override
-	public Boolean isAuth(String Mname){
-		AccessToken at = TokenManager.getAccessToken(context.getAppToken());
-		if(at != null){
-			Integer userId = Integer.valueOf(at.getExtra("userId").toString());
-			return PtPermission.dao.isAuth(userId,context.getUrl(),context.getHttpMethod(),Mname);
-		}else{
-			return PtPermission.dao.isVerify(context.getUrl(),context.getHttpMethod(),Mname);
-		}
-	}
+            StringBuffer sb = new StringBuffer();
+            byte[] buffer = new byte[1024];
+            int iRead;
+            while ((iRead = br.read(buffer)) != -1) {
+                sb.append(new String(buffer, 0, iRead, "UTF-8"));
+            }
+
+            String str = sb.toString();
+
+            return str;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    @Override
+    public PtPermissionData getNowRouteData() {
+        AccessToken at = TokenManager.getAccessToken(context.getAppToken());
+        if (at != null) {
+            Integer userId = Integer.valueOf(at.getExtra("userId").toString());
+            return PtPermission.dao.getDataAuth(userId, context.getUrl(), context.getHttpMethod());
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean isAuth(String Mname) {
+        AccessToken at = TokenManager.getAccessToken(context.getAppToken());
+        if (at != null) {
+            Integer userId = Integer.valueOf(at.getExtra("userId").toString());
+            return PtPermission.dao.isAuth(userId, context.getUrl(), context.getHttpMethod(), Mname);
+        } else {
+            return PtPermission.dao.isVerify(context.getUrl(), context.getHttpMethod(), Mname);
+        }
+    }
 }

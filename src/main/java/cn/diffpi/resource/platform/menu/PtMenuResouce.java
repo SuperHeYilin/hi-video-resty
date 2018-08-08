@@ -18,52 +18,52 @@ import cn.dreampie.route.annotation.PUT;
  */
 @API("/pt/menus")
 @AuthSign
-public class PtMenuResouce extends ApiResource{
-	
-	/***
-	 * 获取用户所有菜单
-	 * @return
-	 */
-	@GET
-	public List<Record> menusAll(){
-		return PtMenu.dao.menusAll();
-	}
-	
-	/***
-	 * 获取用户所有菜单
-	 * @return
-	 */
-	@GET(value="/user",isverify=false)
-	public List<Record> userMenusAll(){
-		return PtMenu.dao.userMenusAll(getUserId());
-	}
-	
-	/***
-	 * 添加菜单按钮
-	 * @param menu 菜单
-	 */
-	@POST
-	public PtMenu saveMenu(PtMenu menu){
-		PtMenu.dao.save(menu);
-		
-		return menu;
-	}
-	
-	/***
-	 * 添加菜单按钮
-	 * @param menu 菜单
-	 */
-	@PUT
-	public boolean upMenu(PtMenu menu){
-		return PtMenu.dao.update(menu);
-	}
-	
-	/***
-	 * 删除菜单按钮
-	 * @param menu 菜单
-	 */
-	@DELETE("/:id")
-	public boolean delMenu(Long id){
-		return PtMenu.dao.delete(id);
-	}
+public class PtMenuResouce extends ApiResource {
+
+    /***
+     * 获取用户所有菜单
+     * @return
+     */
+    @GET
+    public List<Record> menusAll() {
+        return PtMenu.dao.menusAll();
+    }
+
+    /***
+     * 获取用户所有菜单
+     * @return
+     */
+    @GET(value = "/user", isverify = false)
+    public List<Record> userMenusAll() {
+        return PtMenu.dao.userMenusAll(getUserId());
+    }
+
+    /***
+     * 添加菜单按钮
+     * @param menu 菜单
+     */
+    @POST
+    public PtMenu saveMenu(PtMenu menu) {
+        PtMenu.dao.save(menu);
+
+        return menu;
+    }
+
+    /***
+     * 添加菜单按钮
+     * @param menu 菜单
+     */
+    @PUT
+    public boolean upMenu(PtMenu menu) {
+        return PtMenu.dao.update(menu);
+    }
+
+    /***
+     * 删除菜单按钮
+     * @param menu 菜单
+     */
+    @DELETE("/:id")
+    public boolean delMenu(Long id) {
+        return PtMenu.dao.delete(id);
+    }
 }

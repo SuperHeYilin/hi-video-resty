@@ -14,12 +14,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name="client_user_address")
+@Table(name = "client_user_address")
 public class UserAddress extends BaseModel<UserAddress> {
     public static final UserAddress dao = new UserAddress();
 
     /**
      * 批量上传
+     *
      * @param fileName
      * @param path
      * @return
@@ -40,20 +41,20 @@ public class UserAddress extends BaseModel<UserAddress> {
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            throw new HttpException(HttpStatus.UNPROCESSABLE_ENTITY,"paramErr","文件导入失败");
+            throw new HttpException(HttpStatus.UNPROCESSABLE_ENTITY, "paramErr", "文件导入失败");
         }
 
         for (Object[] o : listExcel) {
             UserAddress address = new UserAddress();
             address
-                    .set("province",o[0])
-                    .set("city",o[1])
-                    .set("area",o[2])
-                    .set("street",o[3])
-                    .set("address",o[4])
+                    .set("province", o[0])
+                    .set("city", o[1])
+                    .set("area", o[2])
+                    .set("street", o[3])
+                    .set("address", o[4])
                     .set("is_default", 0)
-                    .set("create_type",1)
-                    .set("create_time",DateUtil.getCurrentDate())
+                    .set("create_type", 1)
+                    .set("create_time", DateUtil.getCurrentDate())
                     .set("is_del", 0);
 
             addresses.add(address);

@@ -15,30 +15,30 @@ import cn.dreampie.route.annotation.PUT;
 /**
  * Created by one__l on 15-1-16.
  */
-@API(value = "/sessions",name="登录管理")
+@API(value = "/sessions", name = "登录管理")
 public class SessionResource extends ApiResource {
 
-	@POST(des="登陆",isverify=false)
-	public Map<String, Object> login(String username, String password) {
-		PtUser user = PtUser.dao.login(username, password);
-		AccessToken token = null;
-		if(user != null){
-			Map<String, Object> extras = new HashMap<String, Object>();
-			extras.put("userId", user.get("id"));
-			
-			token = TokenManager.craeteToken(extras, username);
-			// TokenManager.putMultTokens(String.valueOf(user.get("id")), token);
+    @POST(des = "登陆", isverify = false)
+    public Map<String, Object> login(String username, String password) {
+        PtUser user = PtUser.dao.login(username, password);
+        AccessToken token = null;
+        if (user != null) {
+            Map<String, Object> extras = new HashMap<String, Object>();
+            extras.put("userId", user.get("id"));
 
-			return Maper.of("userId" , user.get("id") , "token" , token,"userInfo",user);
-		} else {
-			return new HashMap<String, Object>();
-		}
-	}
+            token = TokenManager.craeteToken(extras, username);
+            // TokenManager.putMultTokens(String.valueOf(user.get("id")), token);
 
-	@PUT
-	public boolean logout(String token){
-		TokenManager.removeByToken(token);
-		
-		return true;
-	} 
+            return Maper.of("userId", user.get("id"), "token", token, "userInfo", user);
+        } else {
+            return new HashMap<String, Object>();
+        }
+    }
+
+    @PUT
+    public boolean logout(String token) {
+        TokenManager.removeByToken(token);
+
+        return true;
+    }
 }

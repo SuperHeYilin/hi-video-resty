@@ -7,37 +7,37 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Client {
-	Socket socket;
-	BufferedReader in;
-	PrintWriter out;
+    Socket socket;
+    BufferedReader in;
+    PrintWriter out;
 
-	public Client() {
-		try {
+    public Client() {
+        try {
 
-			for (int i = 0; i < 5; i++) {
-				socket = new Socket("bepier.com", 16539);
-				in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				out = new PrintWriter(socket.getOutputStream(), true);
-				BufferedReader line = new BufferedReader(new InputStreamReader(System.in));
+            for (int i = 0; i < 5; i++) {
+                socket = new Socket("bepier.com", 16539);
+                in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader line = new BufferedReader(new InputStreamReader(System.in));
 
-				//out.println(line.readLine());
-				out.println("asdasdsad");
+                //out.println(line.readLine());
+                out.println("asdasdsad");
 
-				line.close();
-				out.close();
-				in.close();
+                line.close();
+                out.close();
+                in.close();
 
-				socket.close();
-			}
-			
+                socket.close();
+            }
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
-	public static void main(String[] args) {
-		new Client();
-	}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String[] args) {
+        new Client();
+    }
 
 }

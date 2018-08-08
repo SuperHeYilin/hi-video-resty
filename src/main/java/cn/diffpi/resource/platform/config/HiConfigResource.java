@@ -16,32 +16,36 @@ import java.util.List;
  */
 @API("/config")
 public class HiConfigResource extends ApiResource {
-	/**
-	 * 罗列所有配置
-	 * @return
-	 */
-	@GET
-	public List<HiConfig> getAllConfig() {
-		return HiConfig.dao.findAll();
-	}
+    /**
+     * 罗列所有配置
+     *
+     * @return
+     */
+    @GET
+    public List<HiConfig> getAllConfig() {
+        return HiConfig.dao.findAll();
+    }
 
-	/**
-	 * 添加配置
-	 * @param hiConfig
-	 * @return
-	 */
-	@POST
-	public boolean addConfig(HiConfig hiConfig) {
-		return hiConfig.save();
-	}
-	/**
-	 * 更新配置
-	 * @param hiConfig 配置
-	 * @return
-	 */
-	@PUT
-	public boolean updateConfig(HiConfig hiConfig) {
-		return hiConfig.update();
-	}
+    /**
+     * 添加配置
+     *
+     * @param hiConfig
+     * @return
+     */
+    @POST
+    public boolean addConfig(HiConfig hiConfig) {
+        return hiConfig.save();
+    }
+
+    /**
+     * 更新配置
+     *
+     * @param hiConfig 配置
+     * @return
+     */
+    @PUT
+    public boolean updateConfig(HiConfig hiConfig) {
+        return hiConfig.update();
+    }
 
 }

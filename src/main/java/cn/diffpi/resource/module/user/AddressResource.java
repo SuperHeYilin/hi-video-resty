@@ -14,7 +14,7 @@ public class AddressResource extends ApiResource {
 
     @GET
     public SplitPage list() {
-        SplitPage page = getModel(SplitPage.class,true);
+        SplitPage page = getModel(SplitPage.class, true);
 
         String sql = "SELECT\n" +
                 "	cua.*,\n" +
@@ -28,8 +28,8 @@ public class AddressResource extends ApiResource {
                 "	1 = 1";
 
         String name = getParam("name");
-        if(StringKit.isNotBlank(name)){
-            sql += " and cp.nickname like '%"+name+"%'";
+        if (StringKit.isNotBlank(name)) {
+            sql += " and cp.nickname like '%" + name + "%'";
         }
 
         UserAddress.dao.splitPageBaseSql(page, "", sql);
@@ -38,6 +38,7 @@ public class AddressResource extends ApiResource {
 
     /**
      * 批量上传地址
+     *
      * @param fileName
      * @return
      */

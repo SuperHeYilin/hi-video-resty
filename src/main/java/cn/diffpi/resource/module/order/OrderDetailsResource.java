@@ -10,12 +10,12 @@ import cn.dreampie.route.annotation.GET;
 @API("/order/details")
 public class OrderDetailsResource extends ApiResource {
     @GET
-    public Order getOrderDetails(Integer id){
+    public Order getOrderDetails(Integer id) {
         Order order = Order.dao.findById(id);
         if (order != null) {
             int clientUserId = order.get("user");
             // 客户信息
-            ClientUser clientUser =  ClientUser.dao.findById(clientUserId);
+            ClientUser clientUser = ClientUser.dao.findById(clientUserId);
             order.put("clientUser", clientUser);
             // 客户地址
             UserAddress userAddress = UserAddress.dao.findById(clientUserId);

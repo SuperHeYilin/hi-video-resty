@@ -7,42 +7,42 @@ package cn.diffpi.response.errmodel;
  */
 public class SubError {
 
-	private String code;
+    private String code;
 
-	private String message;
-	
-	private String autoMessage;
+    private String message;
 
-	public SubError() {
-	}
+    private String autoMessage;
 
-	public SubError(String code, String message , String autoMessage) {
-		this.code = code;
-		this.message = message;
-		this.autoMessage = autoMessage;
-	}
+    public SubError() {
+    }
 
-	public String getCode() {
-		return code;
-	}
+    public SubError(String code, String message, String autoMessage) {
+        this.code = code;
+        this.message = message;
+        this.autoMessage = autoMessage;
+    }
 
-	public void setCode(String code) {
-		this.code = code;
-	}
+    public String getCode() {
+        return code;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public String getAutoMessage() {
-		return autoMessage;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-	public void setAutoMessage(String autoMessage) {
-		this.autoMessage = autoMessage;
-	}
+    public String getAutoMessage() {
+        return autoMessage;
+    }
+
+    public void setAutoMessage(String autoMessage) {
+        this.autoMessage = autoMessage;
+    }
 }

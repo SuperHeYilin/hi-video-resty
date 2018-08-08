@@ -13,13 +13,13 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Documented
 public @interface API {
-  String value();
-  
-  boolean ismenu() default false;//是否是功能菜单
-  
-  String name() default "";//名称
-  
-  String menu_url() default "";//菜单url
-  
-  String[] headers() default {};
+    String value();
+
+    boolean ismenu() default false;//是否是功能菜单
+
+    String name() default "";//名称
+
+    String menu_url() default "";//菜单url
+
+    String[] headers() default {};
 }

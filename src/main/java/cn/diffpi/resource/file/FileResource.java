@@ -1,5 +1,6 @@
 package cn.diffpi.resource.file;
 
+import cn.diffpi.kit.DateUtil;
 import cn.diffpi.kit.StrKit;
 import cn.diffpi.kit.video.FileUtil;
 import cn.diffpi.resource.ApiResource;
@@ -16,6 +17,7 @@ import java.io.File;
 
 /**
  * 文件请求类
+ *
  * @author super
  * @date 2018/7/24 15:11
  */
@@ -23,6 +25,7 @@ import java.io.File;
 public class FileResource extends ApiResource {
     /**
      * 打开文件
+     *
      * @param ids 路径
      */
     @POST("/open")
@@ -40,8 +43,9 @@ public class FileResource extends ApiResource {
 
     /**
      * 为当前文件创建父级目录
-     * @param path  文件目录
-     * @param newName   新建目录名称
+     *
+     * @param path    文件目录
+     * @param newName 新建目录名称
      * @return
      */
     @POST("/parent-dir")
@@ -58,8 +62,37 @@ public class FileResource extends ApiResource {
     }
 
     /**
+     * 更改文件名
+     * @param id
+     * @param newName
+     * @return
+     */
+    @PUT("/filename")
+    public boolean updateFileName(int id, String newName) {
+        HiVideo hiVideo = HiVideo.dao.findById(id);
+        if (hiVideo == null) {
+            return false;
+        }
+        String oldPath = hiVideo.get("path");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s : newName.split(",")) {
+            stringBuilder.append(s);
+        }
+        String newPath = FileUtil.renameFile(oldPath, stringBuilder.toString());
+        if (newPath != null) {
+            File file = new File(newPath);
+            return hiVideo
+                    .set("file_name", file.getName())
+                    .set("path", file.getAbsolutePath())
+                    .set("update_date", DateUtil.getCurrentDate())
+                    .update();
+        }
+        return false;
+    }
+    /**
      * 修改父级目录
-     * @param path 文件绝对路径
+     *
+     * @param path    文件绝对路径
      * @param newName 名称
      * @return
      */
@@ -79,6 +112,7 @@ public class FileResource extends ApiResource {
 
     /**
      * 移动截图到当前视频目录下
+     *
      * @param targetDirectory
      * @return
      */
@@ -89,7 +123,7 @@ public class FileResource extends ApiResource {
         if (screenImgPath != null) {
             // 截图地址文件夹对象
             File file = new File(screenImgPath);
-                if (file.exists()) {
+            if (file.exists()) {
                 File[] files = file.listFiles();
                 if (files == null) {
                     return false;
@@ -126,8 +160,10 @@ public class FileResource extends ApiResource {
         }
         return false;
     }
+
     /**
      * 移动删除  移动到指定目录    回收站
+     *
      * @param ids
      * @return
      */
@@ -144,13 +180,13 @@ public class FileResource extends ApiResource {
                     // 获取配置的删除目录路径
                     String deletePath = HiConfig.dao.getConfigValue("deletePath");
                     if (StrKit.isBlank(deletePath)) {
-                        throw new HttpException(HttpStatus.NOT_FOUND,"paramErr", "尚未配置回收站！");
+                        throw new HttpException(HttpStatus.NOT_FOUND, "paramErr", "尚未配置回收站！");
                     }
                     // 移动成功就删除记录
                     if (FileUtil.moveFile(path, deletePath)) {
                         hiVideo.delete();
                     } else {
-                        throw new HttpException(HttpStatus.NOT_FOUND,"paramErr", "移动失败！");
+                        throw new HttpException(HttpStatus.NOT_FOUND, "paramErr", "移动失败！");
                     }
                 }
             }

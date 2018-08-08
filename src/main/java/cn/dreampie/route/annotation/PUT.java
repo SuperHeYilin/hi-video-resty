@@ -15,13 +15,13 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Documented
 public @interface PUT {
-  String value() default "";
+    String value() default "";
 
-  String[] headers() default {};
+    String[] headers() default {};
 
-  String des() default "";
+    String des() default "";
 
-  Class<? extends Validator>[] valid() default {};
-  
-  boolean isverify() default true;//是否需要拦截权限
+    Class<? extends Validator>[] valid() default {};
+
+    boolean isverify() default true;//是否需要拦截权限
 }

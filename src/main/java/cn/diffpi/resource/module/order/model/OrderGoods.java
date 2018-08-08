@@ -5,14 +5,14 @@ import cn.dreampie.orm.annotation.Table;
 
 import java.util.List;
 
-@Table(name="module_order_goods")
+@Table(name = "module_order_goods")
 public class OrderGoods extends BaseModel<OrderGoods> {
     public static final OrderGoods dao = new OrderGoods();
 
     public List<OrderGoods> getOrderGoodsById(Integer orderId) {
-        return dao.findBy("orderid = ?",orderId);
+        return dao.findBy("orderid = ?", orderId);
     }
-    
+
     /***
      * 根据订单id获取商品信息
      * @param orderId
@@ -33,6 +33,6 @@ public class OrderGoods extends BaseModel<OrderGoods> {
                 "ORDER BY\n" +
                 "	mog.type";
 
-        return OrderGoods.dao.find(sql,orderId);
+        return OrderGoods.dao.find(sql, orderId);
     }
 }

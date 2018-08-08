@@ -13,12 +13,12 @@ import cn.diffpi.response.errmodel.MainErrors;
  */
 public class RejectedServiceResponse extends ErrorResponse {
 
-	public RejectedServiceResponse() {
-	}
+    public RejectedServiceResponse() {
+    }
 
-	public RejectedServiceResponse(String method, String version, Locale locale) {
-		MainError mainError = MainErrors.getError(MainErrorType.FORBIDDEN_REQUEST, locale, method, version);
-		setMainError(mainError);
-	}
+    public RejectedServiceResponse(String method, String version, Locale locale) {
+        MainError mainError = MainErrors.getError(MainErrorType.FORBIDDEN_REQUEST, locale, method, version);
+        setMainError(mainError);
+    }
 }
 
