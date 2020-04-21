@@ -9,12 +9,12 @@ import java.util.regex.Pattern;
 
 public class VideoPicUtil {
     // 视频工具文件位置
-    private static final String FFMPEG_PATH = "F:\\ffmpeg\\bin\\ffmpeg.exe";
+    private static final String FFMPEG_PATH = "C:\\Users\\superHe\\Desktop\\ffmpeg-20200420-cacdac8-win64-static\\bin\\ffmpeg.exe";
 
     public static void main(String[] args) {
 
 //        processImgNum("D:/下载/迅雷下载/马戏Z王.720p.HD韩版中英双字[最新电影www.6vhao.tv].mp4", 1);
-        processImg("D:/21bt.net-SNIS850FHD.mp4", "", 200);
+        processImg("D:\\3\\黑镜.Black.Mirror.S03E02.中英字幕.HDTVrip.1024x576.mp4", "D:\\3\\", 1500);
 
     }
 
@@ -89,24 +89,37 @@ public class VideoPicUtil {
         }
         List<String> commands = new java.util.ArrayList<String>();
         commands.add(FFMPEG_PATH);
+        commands.add("-ss");
+        commands.add(Integer.toString(time));
         commands.add("-i");
         commands.add(videoPath);
+//        commands.add("-f");
+//        commands.add("image2");
         commands.add("-y");
-        commands.add("-f");
-        commands.add("image2");
-        commands.add("-ss");
         //这个参数是设置截取视频300秒(5分钟)时的画面
-        commands.add(Integer.toString(time));
 //        commands.add("100");
 //    commands.add("-t");
 //    commands.add("2.0");
 //    commands.add("-s");
-//    commands.add("700x525");
+//    commands.add("1080x720");
+//    commands.add("-q:v");
+//    commands.add("1");
+//        -pix_fmt rgb24 -r 7 -s 219*390 -t 00:00:7.000
+        commands.add("-pix_fmt");
+        commands.add("rgb24");
+        commands.add("-r");
+        commands.add("7");
+        commands.add("-s");
+        commands.add("1024x576");
+        commands.add("-t");
+        commands.add("00:00:5.000");
+
 //    commands.add(veido_path.substring(0, veido_path.lastIndexOf(".")).replaceFirst("vedio", "file") + ".jpg");
 //    commands.add("D:/"+file.getName().substring(0, file.getName().lastIndexOf(".")) + ".jpg");
         // 获取时间戳
         Long tempFileName = System.currentTimeMillis();
-        String imgPath = cachePath + tempFileName.toString() + ".jpg";
+        String imgPath = cachePath + tempFileName.toString() + ".gif";
+//        String imgPath = cachePath + tempFileName.toString() + ".jpg";
 
         commands.add(imgPath);
         try {

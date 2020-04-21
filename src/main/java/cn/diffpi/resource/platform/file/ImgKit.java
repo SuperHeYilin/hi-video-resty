@@ -17,12 +17,12 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.MetadataException;
-import com.drew.metadata.exif.ExifDirectory;
+//import com.drew.imaging.jpeg.JpegMetadataReader;
+//import com.drew.imaging.jpeg.JpegProcessingException;
+//import com.drew.metadata.Directory;
+//import com.drew.metadata.Metadata;
+//import com.drew.metadata.MetadataException;
+//import com.drew.metadata.exif.ExifDirectory;
 
 import cn.diffpi.resource.platform.file.model.PtMedia;
 import cn.dreampie.common.http.UploadedFile;
@@ -144,35 +144,36 @@ public class ImgKit {
      * @return
      */
     public static int getRotateAngleForPhoto(File file) {
-        int angle = 0;
-        Metadata metadata;
-        try {
-            metadata = JpegMetadataReader.readMetadata(file);
-            Directory directory = metadata.getDirectory(ExifDirectory.class);
-            if (directory.containsTag(ExifDirectory.TAG_ORIENTATION)) {
-                // Exif信息中方向　　
-                int orientation = directory.getInt(ExifDirectory.TAG_ORIENTATION);
-                // 原图片的方向信息
-                if (6 == orientation) {
-                    //6旋转90
-                    angle = 90;
-                } else if (3 == orientation) {
-                    //3旋转180
-                    angle = 180;
-                } else if (8 == orientation) {
-                    //8旋转90
-                    angle = 270;
-                }
-            }
-        } catch (JpegProcessingException e) {
-            e.printStackTrace();
-            return angle;
-        } catch (MetadataException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return angle;
+//        int angle = 0;
+//        Metadata metadata;
+//        try {
+//            metadata = JpegMetadataReader.readMetadata(file);
+//            Directory directory = metadata.getDirectory(ExifDirectory.class);
+//            if (directory.containsTag(ExifDirectory.TAG_ORIENTATION)) {
+//                // Exif信息中方向　　
+//                int orientation = directory.getInt(ExifDirectory.TAG_ORIENTATION);
+//                // 原图片的方向信息
+//                if (6 == orientation) {
+//                    //6旋转90
+//                    angle = 90;
+//                } else if (3 == orientation) {
+//                    //3旋转180
+//                    angle = 180;
+//                } else if (8 == orientation) {
+//                    //8旋转90
+//                    angle = 270;
+//                }
+//            }
+//        } catch (JpegProcessingException e) {
+//            e.printStackTrace();
+//            return angle;
+//        } catch (MetadataException e) {
+//            e.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return angle;
+        return 0;
     }
 
     /**
